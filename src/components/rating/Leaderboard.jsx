@@ -1,6 +1,8 @@
+import { useMemo } from 'react';
+import { getUsers } from '../../services/userStorage';
+import { useAuth } from '../../hooks/useAuth';
 import Card from '../ui/Card';
 import Badge from '../ui/Badge';
-import { leaderboard, currentUser } from '../../data/mockData';
 import styles from './LeaderboardRow.module.css';
 
 function rankClass(rank) {
@@ -18,30 +20,54 @@ function medal(rank) {
 }
 
 export function CurrentUserBanner() {
+  const { user } = useAuth();
+  const users = useMemo(
+    () => getUsers().filter((u) => u.role === 'student').sort((a, b) => (b.pts || 0) - (a.pts || 0)),
+    [],
+  );
+  const myRank = users.findIndex((u) => u.email === user.email) + 1;
+
   return (
     <Card className={styles.banner}>
-      <div className={styles.bannerAvatar}>{currentUser.initials}</div>
+      <div className={styles.bannerAvatar}>{user.avatar || user.initials}</div>
       <div className={styles.bannerBody}>
-        <div className={styles.bannerTitle}>{currentUser.name} — это вы</div>
+        <div className={styles.bannerTitle}>{user.name} — это вы</div>
         <div className={styles.bannerSub}>
-          Место #{currentUser.rank} · {currentUser.points.toLocaleString('ru-RU')} очков
+          Место #{myRank || '—'} · {(user.points || 0).toLocaleString('ru-RU')} очков
         </div>
       </div>
-      <Badge variant="badge-purple">{currentUser.rankBadge}</Badge>
+      {myRank === 1 && <Badge variant="badge-purple">🥇 Золото</Badge>}
+      {myRank === 2 && <Badge variant="badge-purple">🥈 Серебро</Badge>}
+      {myRank === 3 && <Badge variant="badge-purple">🥉 Бронза</Badge>}
     </Card>
   );
 }
 
 export default function Leaderboard() {
+  const { user } = useAuth();
+  const entries = useMemo(
+    () =>
+      getUsers()
+        .filter((u) => u.role === 'student')
+        .sort((a, b) => (b.pts || 0) - (a.pts || 0))
+        .map((u, i) => ({
+          id: u.email,
+          name: u.name,
+          avatar: u.avatar || u.initials,
+          score: `${u.avgScore || 0}%`,
+          xp: u.pts || 0,
+          rank: i + 1,
+          me: u.email === user.email,
+        })),
+    [user.email],
+  );
+
   return (
     <>
       <CurrentUserBanner />
       <Card>
-        {leaderboard.map((u) => (
-          <div
-            key={u.rank}
-            className={`${styles.row} ${u.me ? styles.rowMe : ''}`}
-          >
+        {entries.map((u) => (
+          <div key={u.id} className={`${styles.row} ${u.me ? styles.rowMe : ''}`}>
             <div className={`${styles.rank} ${rankClass(u.rank)}`}>{medal(u.rank)}</div>
             <div
               className={styles.avatar}
@@ -57,7 +83,7 @@ export default function Leaderboard() {
               {u.me && <span className={styles.meTag}> (вы)</span>}
             </div>
             <div className={styles.score}>{u.score}</div>
-            <div className={styles.points}>{u.pts.toLocaleString('ru-RU')} pts</div>
+            <div className={styles.points}>{u.xp.toLocaleString('ru-RU')} pts</div>
           </div>
         ))}
       </Card>

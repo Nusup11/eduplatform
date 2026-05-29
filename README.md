@@ -1,40 +1,6 @@
 # EduPlatform — React
 
-Обучающая платформа на **React + Vite**, переписанная с макета `edu_platform_app.html`.
-
-## Структура проекта
-
-```
-src/
-├── components/          # UI-компоненты
-│   ├── layout/        # Header, AppLayout
-│   ├── ui/            # StatCard, Button, Card, BarChart…
-│   ├── course/        # CourseCard, CourseListItem
-│   ├── test/          # TestSelectList, QuestionView, TestResult
-│   ├── rating/        # Leaderboard
-│   └── analytics/     # CourseResultBars, Heatmap
-├── pages/             # Страницы (роуты)
-│   ├── HomePage.jsx
-│   ├── CoursesPage.jsx
-│   ├── TestPage.jsx
-│   ├── RatingPage.jsx
-│   └── AnalyticsPage.jsx
-├── data/
-│   └── mockData.js    # Курсы, тесты, рейтинг, аналитика
-├── styles/
-│   ├── variables.css  # CSS-переменные дизайна
-│   └── global.css
-├── context/
-│   └── AppContext.jsx # State management (useReducer)
-├── hooks/
-│   └── useTestSession.js
-├── routes/
-│   └── AppRouter.jsx  # React Router
-├── services/
-│   └── api.js         # Заготовка REST API
-├── App.jsx
-└── main.jsx
-```
+Обучающая платформа на **React + Vite**, по макету `edu_platform_teacher_student.html`: роли **студент** и **учитель**, отдельная навигация и страницы.
 
 ## Запуск
 
@@ -48,68 +14,69 @@ npm run dev
 ### Backend (опционально)
 
 ```bash
-cd server && npm install && npm run dev
+cd server && npm install && node index.js
 ```
 
-Прокси `/api` → `http://localhost:3001` настроен в `vite.config.js`.
+Фронтенд сейчас использует **localStorage** для пользователей и сессии; API в `server/` можно подключить позже.
 
-## Авторизация
+## Демо-аккаунты
 
-| Маршрут | Описание |
-|---------|----------|
-| `/login` | Вход (JWT) |
-| `/register` | Регистрация студента |
+На странице входа выберите роль (вкладки **Студент** / **Учитель**), затем войдите:
 
-**Демо:** `admin@teach.local` / `password123` (нужен запущенный `server/`)
+| Роль | Email | Пароль |
+|------|-------|--------|
+| Студент | `nusup@muk.edu.kg` | `Nusup123` |
+| Учитель | `mirkin@muk.edu.kg` | `Teacher123` |
+| Учитель | `demo@teacher.edu` | `Teacher123` |
 
-Защищённые страницы: `/test`, `/analytics` — без входа перенаправление на `/login`.
+Регистрация: `/register` — имя, email, пароль, аватар; для студента — группа, для учителя — предмет.
 
-Токен хранится в `localStorage`, при перезагрузке вызывается `GET /api/auth/me`.
+## Маршруты
 
-## Функционал
+### Студент
+| Путь | Страница |
+|------|----------|
+| `/` | Главная |
+| `/courses` | Курсы |
+| `/test` | Тесты |
+| `/rating` | Рейтинг |
+| `/analytics` | Аналитика |
+| `/profile` | Профиль |
 
-| Раздел | Возможности |
-|--------|-------------|
-| **Главная** | Статистика, курсы в процессе, график активности |
-| **Курсы** | Фильтры: все / активные / завершённые, прогресс |
-| **Тест** | Выбор теста, таймер, ответы с подсветкой, результат, XP |
-| **Рейтинг** | Таблица лидеров, блок текущего пользователя |
-| **Аналитика** | Статистика, heatmap, прогресс по курсам и неделям |
+### Учитель
+| Путь | Страница |
+|------|----------|
+| `/dashboard` | Дашборд |
+| `/students` | Студенты |
+| `/tests-manage` | Управление тестами |
+| `/analytics` | Аналитика (вид учителя) |
+| `/profile` | Профиль |
 
-## State management
+### Гость
+| `/login` | Вход |
+| `/register` | Регистрация |
 
-`AppContext` + `useReducer`:
+Учитель при заходе на `/` перенаправляется на `/dashboard`; студент не видит страницы учителя.
 
-- пользователь и очки
-- фильтр курсов
-- сессия теста (вопрос, таймер, ответы)
-- последний результат теста
+## Структура
 
-Хук `useTestSession` инкапсулирует логику тестирования.
-
-## Подключение backend
-
-1. Замените импорты из `data/mockData.js` на вызовы `services/api.js`
-2. Пример:
-
-```javascript
-import api from '../services/api';
-
-// В CoursesPage
-const data = await api.courses.list({ category: filter });
 ```
-
-3. После логина сохраняйте JWT: `localStorage.setItem('token', token)`
-
-Готовый Express API в папке `server/` (из предыдущей версии проекта).
+src/
+├── components/       # layout, auth, ui, course, test, rating
+├── pages/            # студентские страницы
+│   └── teacher/      # дашборд, студенты, тесты, аналитика
+├── config/navigation.js
+├── context/AppContext.jsx
+├── services/userStorage.js   # edu_users_v2, edu_session_v2
+├── routes/AppRouter.jsx
+└── data/mockData.js
+```
 
 ## Стек
 
-- React 18
-- React Router 6
-- Vite 5
-- CSS Modules
-- Context API + Hooks
+- React 18, React Router 6, Vite 5
+- CSS Modules, Context API + useReducer
+- Tabler Icons (CDN в `index.html`)
 
 ## Сборка
 

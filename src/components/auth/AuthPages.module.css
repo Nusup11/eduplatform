@@ -1,0 +1,278 @@
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--color-background-tertiary);
+}
+
+.card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.75rem;
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.roleTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.roleTab {
+  flex: 1;
+  padding: 10px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.roleTabActiveStudent {
+  border-color: #7f77dd;
+  background: #eeedfe;
+  color: #3c3489;
+  font-weight: 500;
+}
+
+.roleTabActiveTeacher {
+  border-color: #1d9e75;
+  background: #e1f5ee;
+  color: #085041;
+  font-weight: 500;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.inputWrap input {
+  width: 100%;
+  padding: 10px 40px 10px 12px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  outline: none;
+}
+
+.inputWrap input:focus {
+  border-color: #7f77dd;
+  box-shadow: 0 0 0 3px #eeedfe;
+}
+
+.inputWrapTeacher input:focus {
+  border-color: #1d9e75;
+  box-shadow: 0 0 0 3px #e1f5ee;
+}
+
+.fieldIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  font-size: 16px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.error {
+  font-size: 12px;
+  color: #a32d2d;
+  margin-top: 4px;
+}
+
+.errorBox {
+  font-size: 13px;
+  color: #a32d2d;
+  background: #fcebeb;
+  padding: 10px 12px;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 1rem;
+}
+
+.okBanner {
+  background: #e1f5ee;
+  border: 0.5px solid #5dcaa5;
+  border-radius: var(--border-radius-md);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #085041;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnPrimary {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btnPrimaryStudent {
+  background: #7f77dd;
+}
+
+.btnPrimaryStudent:hover {
+  background: #534ab7;
+}
+
+.btnPrimaryTeacher {
+  background: #1d9e75;
+}
+
+.btnPrimaryTeacher:hover {
+  background: #0f6e56;
+}
+
+.divider {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-tertiary);
+  font-size: 12px;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 0.5px;
+  background: var(--color-border-tertiary);
+}
+
+.btnDemo {
+  width: 100%;
+  padding: 8px 16px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-primary);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btnDemo:hover {
+  background: var(--color-background-secondary);
+}
+
+.footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 1.25rem;
+}
+
+.footer a {
+  color: #534ab7;
+  font-weight: 500;
+}
+
+.avPick {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.avOpt {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.avOptOn {
+  border-color: #7f77dd;
+}
+
+.strBar {
+  height: 4px;
+  border-radius: 2px;
+  margin-top: 6px;
+  background: var(--color-background-secondary);
+  overflow: hidden;
+}
+
+.strFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s, background 0.3s;
+}
+
+.strLabel {
+  font-size: 11px;
+  margin-top: 3px;
+}

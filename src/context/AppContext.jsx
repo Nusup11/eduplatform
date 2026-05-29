@@ -5,56 +5,60 @@ import {
   useCallback,
   useEffect,
 } from 'react';
-import { currentUser as demoUser } from '../data/mockData';
-import { mapApiUser, guestUser } from '../utils/userProfile';
-import api from '../services/api';
+import { mapStoredUser, guestUser } from '../utils/userProfile';
+import {
+  getSession,
+  setSession,
+  clearSession,
+  loginUser,
+  registerUser,
+  recordTestResult,
+  seedUsers,
+} from '../services/userStorage';
 
 const AppContext = createContext(null);
 
-const storedToken = localStorage.getItem('token');
+const session = getSession();
 
 const initialState = {
-  user: storedToken ? guestUser : demoUser,
-  token: storedToken,
-  isAuthenticated: false,
-  isAuthLoading: !!storedToken,
+  user: session ? mapStoredUser(session) : guestUser,
+  isAuthenticated: !!session,
+  isAuthLoading: false,
   authError: null,
+  registerSuccess: false,
   courseFilter: 'all',
   testSession: null,
   lastTestResult: null,
-  userPoints: storedToken ? 0 : demoUser.points,
-  testsCompleted: storedToken ? 0 : demoUser.testsCompleted,
+  teacherTests: [
+    { id: 0, title: 'Нейронные сети: сеть Кохонена', subject: 'Нейросети', color: 'bdg-b' },
+    { id: 1, title: 'Операционные системы: Bash', subject: 'ОС', color: 'bdg-t' },
+    { id: 2, title: 'Теория принятия решений: linprog', subject: 'ТПР', color: 'bdg-p' },
+  ],
 };
 
 function appReducer(state, action) {
   switch (action.type) {
-    case 'SET_AUTH_LOADING':
-      return { ...state, isAuthLoading: action.payload };
     case 'SET_AUTH_ERROR':
-      return { ...state, authError: action.payload, isAuthLoading: false };
-    case 'LOGIN_SUCCESS': {
-      const user = action.payload.user;
+      return { ...state, authError: action.payload };
+    case 'SET_REGISTER_SUCCESS':
+      return { ...state, registerSuccess: action.payload };
+    case 'LOGIN_SUCCESS':
       return {
         ...state,
-        user,
-        token: action.payload.token,
+        user: action.payload,
         isAuthenticated: true,
-        isAuthLoading: false,
         authError: null,
-        userPoints: user.points,
+        registerSuccess: false,
       };
-    }
     case 'LOGOUT':
       return {
-        ...state,
+        ...initialState,
         user: guestUser,
-        token: null,
         isAuthenticated: false,
-        isAuthLoading: false,
-        authError: null,
-        userPoints: 0,
-        testsCompleted: 0,
+        teacherTests: state.teacherTests,
       };
+    case 'UPDATE_USER':
+      return { ...state, user: { ...state.user, ...action.payload } };
     case 'SET_COURSE_FILTER':
       return { ...state, courseFilter: action.payload };
     case 'START_TEST':
@@ -109,117 +113,82 @@ function appReducer(state, action) {
       return {
         ...state,
         testSession: null,
-        lastTestResult: action.payload,
-        userPoints: state.userPoints + action.payload.pointsEarned,
-        testsCompleted: state.testsCompleted + 1,
+        lastTestResult: action.payload.result,
+        user: action.payload.user
+          ? mapStoredUser(action.payload.user)
+          : state.user,
       };
     case 'RESET_TEST':
       return { ...state, testSession: null, lastTestResult: null };
-    case 'SET_USER':
-      return { ...state, user: { ...state.user, ...action.payload } };
+    case 'ADD_TEACHER_TEST':
+      return {
+        ...state,
+        teacherTests: [
+          ...state.teacherTests,
+          {
+            id: Date.now(),
+            title: action.payload.title,
+            subject: action.payload.subject,
+            color: 'bdg-b',
+          },
+        ],
+      };
     default:
       return state;
   }
 }
 
-function persistAuth(token, user) {
-  localStorage.setItem('token', token);
-  localStorage.setItem('user', JSON.stringify(user));
-}
-
-function clearPersistedAuth() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-}
-
 export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
+
+  useEffect(() => {
+    seedUsers();
+  }, []);
 
   const setCourseFilter = useCallback((filter) => {
     dispatch({ type: 'SET_COURSE_FILTER', payload: filter });
   }, []);
 
-  const clearAuthError = useCallback(() => {
+  const login = useCallback((email, password, role) => {
     dispatch({ type: 'SET_AUTH_ERROR', payload: null });
-  }, []);
-
-  const applyAuth = useCallback((data) => {
-    const user = mapApiUser(data.user);
-    persistAuth(data.token, data.user);
-    dispatch({ type: 'LOGIN_SUCCESS', payload: { user, token: data.token } });
+    const res = loginUser(email, password, role);
+    if (res.error) {
+      dispatch({ type: 'SET_AUTH_ERROR', payload: res.error });
+      throw new Error(res.error);
+    }
+    const user = mapStoredUser(res.user);
+    dispatch({ type: 'LOGIN_SUCCESS', payload: user });
     return user;
   }, []);
 
-  const login = useCallback(
-    async ({ email, password }) => {
-      dispatch({ type: 'SET_AUTH_ERROR', payload: null });
-      dispatch({ type: 'SET_AUTH_LOADING', payload: true });
-      try {
-        const data = await api.auth.login({ email, password });
-        return applyAuth(data);
-      } catch (err) {
-        dispatch({
-          type: 'SET_AUTH_ERROR',
-          payload: err.message || 'Ошибка входа',
-        });
-        throw err;
-      } finally {
-        dispatch({ type: 'SET_AUTH_LOADING', payload: false });
-      }
-    },
-    [applyAuth],
-  );
-
-  const register = useCallback(
-    async ({ name, email, password }) => {
-      dispatch({ type: 'SET_AUTH_ERROR', payload: null });
-      dispatch({ type: 'SET_AUTH_LOADING', payload: true });
-      try {
-        const data = await api.auth.register({ name, email, password });
-        return applyAuth(data);
-      } catch (err) {
-        dispatch({
-          type: 'SET_AUTH_ERROR',
-          payload: err.message || 'Ошибка регистрации',
-        });
-        throw err;
-      } finally {
-        dispatch({ type: 'SET_AUTH_LOADING', payload: false });
-      }
-    },
-    [applyAuth],
-  );
+  const register = useCallback((data) => {
+    dispatch({ type: 'SET_AUTH_ERROR', payload: null });
+    const res = registerUser(data);
+    if (res.error) {
+      dispatch({ type: 'SET_AUTH_ERROR', payload: res.error });
+      throw new Error(res.error);
+    }
+    dispatch({ type: 'SET_REGISTER_SUCCESS', payload: true });
+    return res.user;
+  }, []);
 
   const logout = useCallback(() => {
-    clearPersistedAuth();
+    clearSession();
     dispatch({ type: 'LOGOUT' });
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
+  const applyTestResult = useCallback((email, percent, meta) => {
+    const updated = recordTestResult(email, percent);
+    dispatch({
+      type: 'FINISH_TEST',
+      payload: { result: meta, user: updated?.user },
+    });
+    return updated;
+  }, []);
 
-    let cancelled = false;
-    (async () => {
-      try {
-        const apiUser = await api.auth.me();
-        if (cancelled) return;
-        const user = mapApiUser(apiUser);
-        dispatch({
-          type: 'LOGIN_SUCCESS',
-          payload: { user, token },
-        });
-      } catch {
-        if (!cancelled) {
-          clearPersistedAuth();
-          dispatch({ type: 'LOGOUT' });
-        }
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
+  const refreshUser = useCallback(() => {
+    const s = getSession();
+    if (s) dispatch({ type: 'LOGIN_SUCCESS', payload: mapStoredUser(s) });
   }, []);
 
   const value = {
@@ -229,8 +198,13 @@ export function AppProvider({ children }) {
     login,
     register,
     logout,
+    applyTestResult,
+    refreshUser,
     authError: state.authError,
-    clearAuthError,
+    registerSuccess: state.registerSuccess,
+    clearRegisterSuccess: () =>
+      dispatch({ type: 'SET_REGISTER_SUCCESS', payload: false }),
+    clearAuthError: () => dispatch({ type: 'SET_AUTH_ERROR', payload: null }),
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

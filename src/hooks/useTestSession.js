@@ -1,10 +1,12 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { useAuth } from './useAuth';
 import { tests } from '../data/mockData';
 
 export function useTestSession() {
-  const { state, dispatch } = useApp();
+  const { state, dispatch, applyTestResult } = useApp();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const session = state.testSession;
   const test = session ? tests.find((t) => t.id === session.testId) : null;
@@ -26,11 +28,40 @@ export function useTestSession() {
       if (!session || session.showFeedback) return;
       dispatch({ type: 'SELECT_ANSWER', payload: index });
       const q = test.questions[session.currentQuestion];
-      const correct = index === q.ans;
-      dispatch({ type: 'RECORD_ANSWER', payload: correct ? 1 : 0 });
+      dispatch({ type: 'RECORD_ANSWER', payload: index === q.ans ? 1 : 0 });
     },
     [dispatch, session, test],
   );
+
+  const finishTest = useCallback(() => {
+    if (!session || !test || !user?.email) return;
+    const correct = session.answers.reduce((a, b) => a + b, 0);
+    const percent = Math.round((correct / test.questions.length) * 100);
+    let title;
+    let sub;
+    if (percent >= 90) {
+      title = 'Отлично! 🏆';
+      sub = `Правильно ${correct} из ${test.questions.length}. Вы получаете EduPoints!`;
+    } else if (percent >= 70) {
+      title = 'Хороший результат 👍';
+      sub = `Правильно ${correct} из ${test.questions.length}. EduPoints начислены`;
+    } else if (percent >= 50) {
+      title = 'Неплохо 📚';
+      sub = `Правильно ${correct} из ${test.questions.length}. EduPoints начислены`;
+    } else {
+      title = 'Нужно повторить 🔁';
+      sub = `Правильно ${correct} из ${test.questions.length}. Попробуйте ещё раз!`;
+    }
+    const updated = applyTestResult(user.email, percent, {
+      testId: test.id,
+      percent,
+      correct,
+      total: test.questions.length,
+      title,
+      sub,
+    });
+    return updated;
+  }, [session, test, user, applyTestResult]);
 
   const nextQuestion = useCallback(() => {
     if (!session || !test) return;
@@ -39,44 +70,7 @@ export function useTestSession() {
     } else {
       dispatch({ type: 'NEXT_QUESTION' });
     }
-  }, [session, test, dispatch]);
-
-  const finishTest = useCallback(() => {
-    if (!session || !test) return;
-    const correct = session.answers.reduce((a, b) => a + b, 0);
-    const pct = Math.round((correct / test.questions.length) * 100);
-    let title;
-    let sub;
-    let pointsEarned = 0;
-    if (pct >= 90) {
-      title = 'Отлично! 🏆';
-      sub = `Правильно ${correct} из ${test.questions.length} вопросов. Вы получаете +120 EduPoints!`;
-      pointsEarned = 120;
-    } else if (pct >= 70) {
-      title = 'Хороший результат 👍';
-      sub = `Правильно ${correct} из ${test.questions.length} вопросов. +80 EduPoints`;
-      pointsEarned = 80;
-    } else if (pct >= 50) {
-      title = 'Неплохо, но можно лучше 📚';
-      sub = `Правильно ${correct} из ${test.questions.length} вопросов. +40 EduPoints`;
-      pointsEarned = 40;
-    } else {
-      title = 'Нужно повторить материал 🔁';
-      sub = `Правильно ${correct} из ${test.questions.length} вопросов. Попробуйте ещё раз!`;
-    }
-    dispatch({
-      type: 'FINISH_TEST',
-      payload: {
-        testId: test.id,
-        percent: pct,
-        correct,
-        total: test.questions.length,
-        title,
-        sub,
-        pointsEarned,
-      },
-    });
-  }, [session, test, dispatch]);
+  }, [session, test, dispatch, finishTest]);
 
   const retryTest = useCallback(() => {
     if (state.lastTestResult) {
@@ -101,8 +95,6 @@ export function useTestSession() {
     }
   }, [session?.timeLeft, session?.answers.length, finishTest]);
 
-  const goToRating = () => navigate('/rating');
-
   return {
     session,
     test,
@@ -113,6 +105,6 @@ export function useTestSession() {
     finishTest,
     retryTest,
     resetToSelect,
-    goToRating,
+    goToRating: () => navigate('/rating'),
   };
 }

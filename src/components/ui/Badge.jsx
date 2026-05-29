@@ -5,6 +5,7 @@ const map = {
   'badge-teal': styles.teal,
   'badge-amber': styles.amber,
   'badge-blue': styles.blue,
+  'badge-teacher': styles.teacher,
 };
 
 export default function Badge({ children, variant = 'badge-purple', className = '' }) {

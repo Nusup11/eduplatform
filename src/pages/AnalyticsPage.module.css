@@ -5,6 +5,27 @@
   margin-bottom: 12px;
 }
 
+.barItem {
+  margin-bottom: 10px;
+}
+
+.barHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.barHead span:first-child {
+  color: var(--color-text-secondary);
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: 1fr 1fr;

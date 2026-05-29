@@ -1,31 +1,43 @@
-import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { useApp } from '../../context/AppContext';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { studentNav, teacherNav } from '../../config/navigation';
+import UserMenu from './UserMenu';
 import styles from './Header.module.css';
 
-const navItems = [
-  { to: '/', label: 'Главная', icon: 'ti-home' },
-  { to: '/courses', label: 'Курсы', icon: 'ti-books' },
-  { to: '/test', label: 'Тест', icon: 'ti-clipboard-check' },
-  { to: '/rating', label: 'Рейтинг', icon: 'ti-trophy' },
-  { to: '/analytics', label: 'Аналитика', icon: 'ti-chart-bar' },
-];
-
 export default function Header() {
-  const { state } = useApp();
-  const { isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user, isAuthenticated, isTeacher } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+  const navItems = isTeacher ? teacherNav : studentNav;
+  const accent = isTeacher ? '#1D9E75' : '#7F77DD';
+  const avBg = isTeacher ? '#9FE1CB' : '#CECBF6';
+  const avColor = isTeacher ? '#085041' : '#3C3489';
+
+  if (!isAuthenticated) {
+    return (
+      <header className={styles.header}>
+        <NavLink to="/login" className={styles.logo}>
+          <div className={styles.logoIcon} style={{ background: '#7F77DD' }}>
+            <i className="ti ti-school" aria-hidden="true" />
+          </div>
+          EduPlatform
+        </NavLink>
+        <div className={styles.authLinks}>
+          <NavLink to="/login">Войти</NavLink>
+          <NavLink to="/register" className={styles.regBtn}>
+            Регистрация
+          </NavLink>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className={styles.header}>
-      <NavLink to="/" className={styles.logo}>
-        <div className={styles.logoIcon}>
-          <i className="ti ti-school" aria-hidden="true" />
+      <NavLink to={isTeacher ? '/dashboard' : '/'} className={styles.logo}>
+        <div className={styles.logoIcon} style={{ background: accent }}>
+          <i className={`ti ti-${isTeacher ? 'chalkboard' : 'school'}`} aria-hidden="true" />
         </div>
         EduPlatform
       </NavLink>
@@ -34,9 +46,9 @@ export default function Header() {
           <NavLink
             key={item.to}
             to={item.to}
-            end={item.to === '/'}
+            end={item.end}
             className={({ isActive }) =>
-              `${styles.navBtn} ${isActive ? styles.navBtnActive : ''}`
+              `${styles.navBtn} ${isActive ? (isTeacher ? styles.navBtnTeacher : styles.navBtnStudent) : ''}`
             }
           >
             <i className={`ti ${item.icon}`} aria-hidden="true" />
@@ -44,26 +56,16 @@ export default function Header() {
           </NavLink>
         ))}
       </nav>
-      <div className={styles.userBlock}>
-        {isAuthenticated ? (
-          <>
-            <div className={styles.userAvatar} title={state.user.name}>
-              {state.user.initials}
-            </div>
-            <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
-              Выйти
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className={styles.authLink}>
-              Войти
-            </Link>
-            <Link to="/register" className={styles.authBtnPrimary}>
-              Регистрация
-            </Link>
-          </>
-        )}
+      <div className={styles.userWrap}>
+        <button
+          type="button"
+          className={styles.userAvatar}
+          style={{ background: avBg, color: avColor }}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {user.avatar || user.initials}
+        </button>
+        <UserMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       </div>
     </header>
   );

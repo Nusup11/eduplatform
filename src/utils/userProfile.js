@@ -1,29 +1,22 @@
-/** @param {string} name */
-export function getInitials(name) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length >= 2) {
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-  }
-  return (parts[0] || '??').slice(0, 2).toUpperCase();
-}
-
-/** Преобразование пользователя API → формат UI */
-export function mapApiUser(apiUser) {
+/** @param {import('../services/userStorage').normalizeUser extends Function} user */
+export function mapStoredUser(user) {
+  if (!user) return null;
   return {
-    id: apiUser.id,
-    name: apiUser.name,
-    email: apiUser.email,
-    role: apiUser.role,
-    initials: getInitials(apiUser.name),
-    points: apiUser.xp ?? 0,
-    xp: apiUser.xp ?? 0,
+    id: user.email,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+    initials: user.initials,
+    avatar: user.avatar,
+    group: user.group,
+    subject: user.subject,
+    points: user.pts ?? 0,
+    xp: user.pts ?? 0,
+    testsCompleted: user.tests ?? 0,
+    averageScore: user.avgScore ?? 0,
     rank: 0,
-    testsCompleted: 0,
-    averageScore: 78,
-    totalStudents: 148,
+    totalStudents: 0,
     rankBadge: '',
-    achievements: apiUser.achievements ?? [],
-    completedCourses: apiUser.completedCourses ?? [],
   };
 }
 
@@ -31,11 +24,14 @@ export const guestUser = {
   id: null,
   name: 'Гость',
   email: '',
+  role: 'student',
   initials: '?',
+  avatar: '?',
   points: 0,
-  rank: 0,
   testsCompleted: 0,
   averageScore: 0,
-  totalStudents: 0,
-  rankBadge: '',
 };
+
+export function isTeacher(user) {
+  return user?.role === 'teacher';
+}

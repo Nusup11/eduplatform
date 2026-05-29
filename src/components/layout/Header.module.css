@@ -67,10 +67,39 @@
   color: var(--color-text-primary);
 }
 
-.navBtnActive {
+.navBtnStudent {
   background: var(--color-background-secondary);
   color: #534ab7;
   font-weight: 500;
+}
+
+.navBtnTeacher {
+  background: var(--color-background-secondary);
+  color: #085041;
+  font-weight: 500;
+}
+
+.authLinks {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.authLinks a {
+  color: #534ab7;
+  font-weight: 500;
+}
+
+.regBtn {
+  background: #7f77dd;
+  color: #fff !important;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-md);
+}
+
+.userWrap {
+  position: relative;
 }
 
 .userBlock {
