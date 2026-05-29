@@ -15,7 +15,7 @@ export default function RoleTabs({ role, onChange }) {
         className={`${styles.roleTab} ${role === 'teacher' ? styles.roleTabActiveTeacher : ''}`}
         onClick={() => onChange('teacher')}
       >
-        <i className="ti ti-chalkboard" aria-hidden="true" /> Учитель
+        <i className="ti ti-chalkboard" aria-hidden="true" /> Преподаватель
       </button>
     </div>
   );

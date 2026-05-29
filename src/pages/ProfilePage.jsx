@@ -18,13 +18,16 @@ export default function ProfilePage() {
   return (
     <>
       <SectionTitle>
-        {isTeacher ? 'Профиль преподавателя' : 'Профиль'}
+        {isTeacher ? 'Профиль преподавателя' : 'Личный профиль'}
       </SectionTitle>
       <Card className={styles.card}>
         <div className={styles.head}>
           <div
             className={styles.avatar}
-            style={{ background: isTeacher ? '#9FE1CB' : '#CECBF6' }}
+            style={{
+              background: isTeacher ? 'var(--teal-lt)' : 'var(--indigo-lt)',
+              border: `2px solid ${isTeacher ? 'var(--teal-md)' : 'var(--indigo-md)'}`,
+            }}
           >
             {user.avatar || user.initials}
           </div>
@@ -34,7 +37,7 @@ export default function ProfilePage() {
             <div className={styles.meta}>
               {isTeacher ? user.subject : user.group}
             </div>
-            <Badge variant={isTeacher ? 'badge-amber' : 'badge-purple'}>
+            <Badge variant={isTeacher ? 'badge-teacher' : 'badge-purple'}>
               {isTeacher ? (
                 <>
                   <i className="ti ti-chalkboard" aria-hidden="true" /> Преподаватель
@@ -50,18 +53,19 @@ export default function ProfilePage() {
         <div className={styles.body}>
           {!isTeacher && (
             <CardsGrid>
-              <StatCard label="Тестов" value={user.testsCompleted} valueColor="#534AB7" />
-              <StatCard label="EduPoints" value={user.points} valueColor="#BA7517" />
-              <StatCard label="Ср. балл" value={`${user.averageScore}%`} valueColor="#1D9E75" />
+              <StatCard label="Тестов" value={user.testsCompleted} accent="indigo" valueColor="var(--indigo)" />
+              <StatCard label="EduPoints" value={user.points} accent="amber" valueColor="var(--amber)" />
+              <StatCard label="Ср. балл" value={`${user.averageScore}%`} accent="teal" valueColor="var(--teal)" />
             </CardsGrid>
           )}
           {isTeacher && (
             <CardsGrid>
-              <StatCard label="Предмет" value={user.subject || '—'} />
+              <StatCard label="Предмет" value={user.subject || '—'} textValue />
               <StatCard
                 label="Студентов"
                 value={studentCount}
-                valueColor="#1D9E75"
+                accent="teal"
+                valueColor="var(--teal)"
               />
             </CardsGrid>
           )}

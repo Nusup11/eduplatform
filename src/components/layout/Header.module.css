@@ -1,45 +1,69 @@
 .header {
-  background: var(--color-background-primary);
-  border-bottom: 0.5px solid var(--color-border-tertiary);
+  background: var(--indigo-2);
+  border-bottom: 2px solid var(--gold);
   padding: 0 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
   gap: 8px;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 500;
-  font-size: 16px;
+  gap: 12px;
+  text-decoration: none;
+  color: #fff;
   flex-shrink: 0;
 }
 
-.logoIcon {
-  width: 32px;
-  height: 32px;
-  background: #7f77dd;
-  border-radius: 8px;
+.logoCrest {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--gold);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.logoName {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   color: #fff;
-  font-size: 16px;
+}
+
+.logoSub {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 300;
+  display: none;
 }
 
 .nav {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 2px;
   overflow-x: auto;
   flex: 1;
   justify-content: center;
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
@@ -48,126 +72,123 @@
 }
 
 .navBtn {
-  background: none;
+  background: transparent;
   border: none;
   padding: 6px 10px;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--r-sm);
   font-size: 13px;
-  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
   transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.02em;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .navBtn:hover {
-  background: var(--color-background-secondary);
-  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
-.navBtnStudent {
-  background: var(--color-background-secondary);
-  color: #534ab7;
+.navBtnOn {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
   font-weight: 500;
 }
 
-.navBtnTeacher {
-  background: var(--color-background-secondary);
-  color: #085041;
-  font-weight: 500;
-}
-
-.authLinks {
+.hdrAuth {
   display: flex;
-  gap: 12px;
   align-items: center;
-  font-size: 14px;
+  gap: 8px;
 }
 
-.authLinks a {
-  color: #534ab7;
-  font-weight: 500;
+.btnHdrLogin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--r-sm);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-family: var(--font-body);
+  transition: background 0.15s, border-color 0.15s;
+  letter-spacing: 0.02em;
 }
 
-.regBtn {
-  background: #7f77dd;
-  color: #fff !important;
-  padding: 6px 12px;
-  border-radius: var(--border-radius-md);
-}
-
-.userWrap {
-  position: relative;
+.btnHdrLogin:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.7);
 }
 
 .userBlock {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
+.umenuWrap {
+  position: relative;
+}
+
 .userAvatar {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: #cecbf6;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 15px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  transition: border-color 0.15s;
+}
+
+.userAvatar:hover {
+  border-color: var(--gold);
+}
+
+.btnHdrLogout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(196, 154, 40, 0.15);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--r-sm);
+  color: var(--gold);
   font-size: 13px;
-  font-weight: 500;
-  color: #3c3489;
+  font-family: var(--font-body);
+  transition: background 0.15s;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-.authLink {
-  font-size: 13px;
-  font-weight: 500;
-  color: #534ab7;
-  padding: 6px 10px;
+.btnHdrLogout:hover {
+  background: rgba(196, 154, 40, 0.28);
 }
 
-.authBtnPrimary {
-  font-size: 13px;
-  font-weight: 500;
-  color: #fff;
-  background: #7f77dd;
-  padding: 6px 12px;
-  border-radius: var(--border-radius-md);
-}
-
-.authBtnPrimary:hover {
-  background: #534ab7;
-}
-
-.logoutBtn {
-  font-size: 12px;
-  padding: 6px 10px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  background: var(--color-background-primary);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-
-.logoutBtn:hover {
-  background: var(--color-background-secondary);
-}
-
-@media (max-width: 640px) {
-  .logoutBtn {
-    display: none;
-  }
-}
-
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .header {
-    padding: 0 1.5rem;
+    padding: 0 2rem;
   }
+
+  .logoSub {
+    display: block;
+  }
+
   .navBtn {
-    padding: 6px 12px;
-    font-size: 14px;
+    padding: 6px 13px;
+  }
+}
+
+@media (max-width: 720px) {
+  .logoutLabel {
+    display: none;
   }
 }

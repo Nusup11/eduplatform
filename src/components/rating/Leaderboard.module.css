@@ -1,0 +1,96 @@
+.banner {
+  margin-bottom: 12px;
+  background: var(--indigo-lt) !important;
+  border-color: var(--indigo-md) !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bannerAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--indigo);
+  border: 2px solid var(--indigo-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.bannerTitle {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-head);
+  color: var(--indigo-2);
+}
+
+.bannerSub {
+  font-size: 12px;
+  color: var(--indigo);
+  font-family: var(--font-mono);
+}
+
+.tableCard {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.rowMe td {
+  background: var(--indigo-lt);
+}
+
+.rankCell {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cellUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cellAv {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--cream-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.name {
+  font-weight: 500;
+  font-family: var(--font-head);
+  color: var(--ink-2);
+}
+
+.nameMe {
+  font-weight: 700;
+  font-family: var(--font-head);
+  color: var(--ink-2);
+}
+
+.meTag {
+  font-size: 11px;
+  color: var(--indigo);
+  font-weight: 500;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.pts {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--indigo);
+}

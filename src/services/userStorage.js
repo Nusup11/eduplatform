@@ -1,5 +1,7 @@
-const USERS_KEY = 'edu_users_v2';
-const SESSION_KEY = 'edu_session_v2';
+import { SEED_STUDENTS, SEED_TEACHERS } from '../data/seedUsers.js';
+
+const USERS_KEY = 'edu_u2';
+const SESSION_KEY = 'edu_s2';
 
 function getInitials(name) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -37,56 +39,52 @@ export function clearSession() {
   localStorage.removeItem(SESSION_KEY);
 }
 
-export function seedUsers() {
-  const users = getUsers();
-  const demos = [
-    {
-      email: 'nusup@muk.edu.kg',
-      password: 'Nusup123',
-      name: 'Жумагулов Нусуп',
-      avatar: '🎓',
-      group: 'ИСИТ-1-22',
-      role: 'student',
-      pts: 2340,
-      tests: 24,
-      avgScore: 78,
-    },
-    {
-      email: 'mirkin@muk.edu.kg',
-      password: 'Teacher123',
-      name: 'Миркин Е.Л.',
-      avatar: '📚',
-      group: '',
-      subject: 'Теория принятия решений',
-      role: 'teacher',
-      pts: 0,
-      tests: 0,
-      avgScore: 0,
-    },
-    {
-      email: 'demo@teacher.edu',
-      password: 'Teacher123',
-      name: 'Асанова Г.Т.',
-      avatar: '🏫',
-      group: '',
-      subject: 'Операционные системы',
-      role: 'teacher',
-      pts: 0,
-      tests: 0,
-      avgScore: 0,
-    },
-  ];
+function migrateLegacyStorage() {
+  try {
+    const legacyUsers = localStorage.getItem('edu_users_v2');
+    const currentUsers = localStorage.getItem(USERS_KEY);
+    if (legacyUsers && (!currentUsers || currentUsers === '[]')) {
+      localStorage.setItem(USERS_KEY, legacyUsers);
+    }
+    const legacySession = localStorage.getItem('edu_session_v2');
+    if (legacySession && !localStorage.getItem(SESSION_KEY)) {
+      localStorage.setItem(SESSION_KEY, legacySession);
+    }
+  } catch {
+    /* ignore */
+  }
+}
 
+export function seedUsers() {
+  migrateLegacyStorage();
+  const users = getUsers();
   let changed = false;
-  for (const d of demos) {
-    if (!users.find((u) => u.email === d.email)) {
+
+  for (const s of SEED_STUDENTS) {
+    if (!users.find((u) => u.email === s.email)) {
       users.push({
-        ...d,
-        initials: getInitials(d.name),
+        ...s,
+        role: 'student',
+        group: s.group || '',
+        subject: '',
+        initials: getInitials(s.name),
       });
       changed = true;
     }
   }
+
+  for (const t of SEED_TEACHERS) {
+    if (!users.find((u) => u.email === t.email)) {
+      users.push({
+        ...t,
+        role: 'teacher',
+        group: '',
+        initials: getInitials(t.name),
+      });
+      changed = true;
+    }
+  }
+
   if (changed) saveUsers(users);
 }
 

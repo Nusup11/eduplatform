@@ -56,8 +56,9 @@ export const courses = [
     topics: 12,
     done: 7,
     pct: 65,
-    color: '#7F77DD',
-    bg: '#EEEDFE',
+    color: 'var(--indigo)',
+    bg: 'var(--indigo-lt)',
+    brd: 'var(--indigo-md)',
     status: 'active',
   },
   {
@@ -68,8 +69,9 @@ export const courses = [
     topics: 10,
     done: 8,
     pct: 80,
-    color: '#1D9E75',
-    bg: '#E1F5EE',
+    color: 'var(--teal)',
+    bg: 'var(--teal-lt)',
+    brd: 'var(--teal-md)',
     status: 'active',
   },
   {
@@ -80,8 +82,9 @@ export const courses = [
     topics: 9,
     done: 4,
     pct: 45,
-    color: '#378ADD',
-    bg: '#E6F1FB',
+    color: '#1A4A7A',
+    bg: '#E5EEF9',
+    brd: '#A3C2E0',
     status: 'active',
   },
   {
@@ -92,8 +95,9 @@ export const courses = [
     topics: 8,
     done: 8,
     pct: 100,
-    color: '#639922',
+    color: '#3A6B1A',
     bg: '#EAF3DE',
+    brd: '#9CC97A',
     status: 'done',
   },
   {
@@ -104,8 +108,9 @@ export const courses = [
     topics: 5,
     done: 5,
     pct: 100,
-    color: '#BA7517',
-    bg: '#FAEEDA',
+    color: 'var(--amber)',
+    bg: 'var(--amber-lt)',
+    brd: '#D4AA6A',
     status: 'done',
   },
 ];
@@ -275,11 +280,10 @@ export const leaderboard = [
 ];
 
 export const courseResults = [
-  { label: 'Теория ПР', pct: 78, color: '#7F77DD' },
-  { label: 'ОС / Bash', pct: 85, color: '#1D9E75' },
-  { label: 'Нейросети', pct: 71, color: '#378ADD' },
-  { label: 'MongoDB', pct: 92, color: '#639922' },
-  { label: 'Линейн. ПР', pct: 88, color: '#BA7517' },
+  { label: 'Теория ПР', pct: 78, color: 'var(--indigo)' },
+  { label: 'ОС/Bash', pct: 85, color: 'var(--teal)' },
+  { label: 'Нейросети', pct: 71, color: '#1A4A7A' },
+  { label: 'MongoDB', pct: 92, color: '#3A6B1A' },
 ];
 
 export const weekProgress = [55, 60, 65, 62, 70, 75, 78];

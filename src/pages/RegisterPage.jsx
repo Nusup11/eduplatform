@@ -12,8 +12,8 @@ function passwordStrength(v) {
   if (/[A-Z]/.test(v)) s++;
   if (/[0-9]/.test(v)) s++;
   if (/[^A-Za-z0-9]/.test(v)) s++;
-  const cols = ['#E24B4A', '#EF9F27', '#1D9E75', '#1D9E75'];
-  const labs = ['Слабый', 'Средний', 'Хороший', 'Сильный'];
+  const cols = ['#c0392b', '#d68a00', '#1a6b58', '#1a6b58'];
+  const labs = ['Слабый', 'Средний', 'Хороший', 'Надёжный'];
   const pts = [25, 50, 75, 100];
   const i = Math.max(0, s - 1);
   return { width: pts[i], label: labs[i], color: cols[i] };
@@ -35,7 +35,6 @@ export default function RegisterPage() {
   const [errors, setErrors] = useState({});
 
   const isTeacher = role === 'teacher';
-  const accent = isTeacher ? '#1D9E75' : '#7F77DD';
   const str = passwordStrength(password);
 
   useEffect(() => {
@@ -75,10 +74,13 @@ export default function RegisterPage() {
     <div className={styles.wrap}>
       <div className={styles.card}>
         <div className={styles.logo}>
-          <div className={styles.logoIcon} style={{ background: accent }}>
+          <div className={styles.logoCrest}>
             <i className={`ti ti-${isTeacher ? 'chalkboard' : 'school'}`} aria-hidden="true" />
           </div>
-          <span className={styles.logoText}>EduPlatform</span>
+          <div>
+            <div className={styles.logoName}>EduPlatform</div>
+            <div className={styles.logoInst}>Международный Университет Кыргызстана</div>
+          </div>
         </div>
 
         <div className={styles.title}>Регистрация</div>
@@ -114,7 +116,7 @@ export default function RegisterPage() {
             </div>
           ) : (
             <div className={styles.field}>
-              <label className={styles.label}>Группа</label>
+              <label className={styles.label}>Учебная группа</label>
               <div className={styles.inputWrap}>
                 <input
                   value={group}
@@ -127,7 +129,7 @@ export default function RegisterPage() {
           )}
 
           <div className={styles.field}>
-            <label className={styles.label}>Email</label>
+            <label className={styles.label}>Адрес электронной почты</label>
             <div className={styles.inputWrap}>
               <input
                 type="email"

@@ -1,5 +1,17 @@
 .title {
-  font-size: 18px;
-  font-weight: 500;
+  font-family: var(--font-head);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ink-2);
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-2);
 }

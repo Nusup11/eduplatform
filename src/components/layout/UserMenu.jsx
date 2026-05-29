@@ -24,7 +24,7 @@ export default function UserMenu({ open, onClose }) {
         <div className={styles.name}>{user.name}</div>
         <div className={styles.email}>{user.email}</div>
         <div className={styles.meta}>
-          {isTeacher ? user.subject || 'Учитель' : user.group || 'Студент'}
+          {isTeacher ? user.subject || 'Преподаватель' : user.group || 'Студент'}
         </div>
       </div>
       <button
@@ -38,7 +38,7 @@ export default function UserMenu({ open, onClose }) {
         <i className="ti ti-user" aria-hidden="true" /> Профиль
       </button>
       <button type="button" className={`${styles.item} ${styles.danger}`} onClick={logout}>
-        <i className="ti ti-logout" aria-hidden="true" /> Выйти
+        <i className="ti ti-logout" aria-hidden="true" /> Выйти из системы
       </button>
     </div>
   );

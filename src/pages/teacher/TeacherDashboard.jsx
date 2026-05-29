@@ -32,7 +32,7 @@ export default function TeacherDashboard() {
   return (
     <>
       <div className={styles.welcome}>
-        <p className={styles.greeting}>Панель преподавателя</p>
+        <p className={styles.eyebrow}>Панель преподавателя</p>
         <h1 className={styles.name}>{user.name}</h1>
         <Badge variant="badge-teacher">
           <i className="ti ti-chalkboard" aria-hidden="true" /> {user.subject || 'Преподаватель'}
@@ -40,9 +40,24 @@ export default function TeacherDashboard() {
       </div>
 
       <CardsGrid>
-        <StatCard label="Студентов всего" value={students.length} valueColor="#1D9E75" />
-        <StatCard label="Тестов сдано" value={totalTests} valueColor="#534AB7" />
-        <StatCard label="Средний балл" value={`${avg}%`} valueColor="#BA7517" />
+        <StatCard
+          label="Студентов всего"
+          value={students.length}
+          accent="teal"
+          valueColor="var(--teal)"
+        />
+        <StatCard
+          label="Тестов сдано"
+          value={totalTests}
+          accent="indigo"
+          valueColor="var(--indigo)"
+        />
+        <StatCard
+          label="Средний балл"
+          value={`${avg}%`}
+          accent="amber"
+          valueColor="var(--amber)"
+        />
         <StatCard label="Активных курсов" value={3} />
       </CardsGrid>
 
@@ -60,13 +75,14 @@ export default function TeacherDashboard() {
               </div>
               <div className={styles.stScore}>
                 <div
+                  className={styles.stPct}
                   style={{
                     color:
                       (u.avgScore || 0) >= 70
-                        ? '#1D9E75'
+                        ? 'var(--teal)'
                         : (u.avgScore || 0) >= 50
-                          ? '#BA7517'
-                          : '#A32D2D',
+                          ? 'var(--amber)'
+                          : 'var(--red)',
                   }}
                 >
                   {u.avgScore || 0}%
@@ -78,14 +94,19 @@ export default function TeacherDashboard() {
         )}
         {students.length > 5 && (
           <Link to="/students" className={styles.moreLink}>
-            Посмотреть всех →
+            Просмотреть всех студентов →
           </Link>
         )}
       </Card>
 
-      <SectionTitle>Распределение баллов</SectionTitle>
+      <SectionTitle>Распределение успеваемости</SectionTitle>
       <Card>
-        <BarChart labels={ranges} values={counts} color="#1D9E75" />
+        <BarChart
+          labels={ranges}
+          values={counts}
+          colors={['var(--red)', 'var(--amber)', 'var(--indigo)', 'var(--teal)']}
+          formatValue={(v) => v}
+        />
       </Card>
     </>
   );

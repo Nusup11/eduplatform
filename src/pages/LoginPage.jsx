@@ -7,7 +7,7 @@ import styles from '../components/auth/AuthPages.module.css';
 
 const DEMO = {
   student: { email: 'nusup@muk.edu.kg', password: 'Nusup123', label: 'Жумагулов Нусуп (студент)' },
-  teacher: { email: 'mirkin@muk.edu.kg', password: 'Teacher123', label: 'Миркин Е.Л. (учитель)' },
+  teacher: { email: 'yust@muk.edu.kg', password: 'Teacher123', label: 'Юст Н.В. (преподаватель)' },
 };
 
 export default function LoginPage() {
@@ -24,7 +24,6 @@ export default function LoginPage() {
   const [fieldError, setFieldError] = useState('');
 
   const isTeacher = role === 'teacher';
-  const accent = isTeacher ? '#1D9E75' : '#7F77DD';
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -64,13 +63,16 @@ export default function LoginPage() {
     <div className={styles.wrap}>
       <div className={styles.card}>
         <div className={styles.logo}>
-          <div className={styles.logoIcon} style={{ background: accent }}>
+          <div className={styles.logoCrest}>
             <i className={`ti ti-${isTeacher ? 'chalkboard' : 'school'}`} aria-hidden="true" />
           </div>
-          <span className={styles.logoText}>EduPlatform</span>
+          <div>
+            <div className={styles.logoName}>EduPlatform</div>
+            <div className={styles.logoInst}>Международный Университет Кыргызстана</div>
+          </div>
         </div>
 
-        <div className={styles.title}>Добро пожаловать!</div>
+        <div className={styles.title}>Добро пожаловать</div>
         <div className={styles.subtitle}>Выберите роль и войдите в систему</div>
 
         <RoleTabs role={role} onChange={setRole} />
@@ -78,19 +80,19 @@ export default function LoginPage() {
         {showOk && (
           <div className={styles.okBanner}>
             <i className="ti ti-circle-check" aria-hidden="true" />
-            Аккаунт создан! Войдите.
+            Аккаунт создан. Выполните вход.
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label className={styles.label}>Email</label>
+            <label className={styles.label}>Адрес электронной почты</label>
             <div className={`${styles.inputWrap} ${isTeacher ? styles.inputWrapTeacher : ''}`}>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={isTeacher ? 'teacher@muk.edu.kg' : 'you@example.com'}
+                placeholder={isTeacher ? 'teacher@muk.edu.kg' : 'you@muk.edu.kg'}
               />
               <i className="ti ti-mail fieldIcon" aria-hidden="true" />
             </div>
@@ -124,14 +126,10 @@ export default function LoginPage() {
             className={`${styles.btnPrimary} ${isTeacher ? styles.btnPrimaryTeacher : styles.btnPrimaryStudent}`}
           >
             <i className="ti ti-login" aria-hidden="true" />
-            Войти как {isTeacher ? 'учитель' : 'студент'}
+            Войти как {isTeacher ? 'преподаватель' : 'студент'}
           </button>
 
-          <div className={styles.divider}>
-            <div className={styles.dividerLine} />
-            или
-            <div className={styles.dividerLine} />
-          </div>
+          <div className={styles.divider}>или</div>
 
           <button type="button" className={styles.btnDemo} onClick={handleDemo}>
             <i className="ti ti-bolt" aria-hidden="true" />

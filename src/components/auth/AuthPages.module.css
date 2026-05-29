@@ -4,52 +4,107 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: var(--color-background-tertiary);
+  background: var(--indigo-2);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255, 255, 255, 0.04) 39px,
+      rgba(255, 255, 255, 0.04) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(255, 255, 255, 0.04) 39px,
+      rgba(255, 255, 255, 0.04) 40px
+    );
+  position: relative;
+}
+
+.wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(196, 154, 40, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(45, 58, 107, 0.4) 0%, transparent 55%);
+  pointer-events: none;
 }
 
 .card {
-  background: var(--color-background-primary);
-  border: 0.5px solid var(--color-border-tertiary);
-  border-radius: var(--border-radius-lg);
-  padding: 2rem;
+  background: var(--parchment);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 2.25rem;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--indigo) 0%, var(--gold) 50%, var(--indigo) 100%);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
 }
 
 .logo {
   display: flex;
   align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 1.75rem;
 }
 
-.logoIcon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+.logoCrest {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--gold);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 20px;
+  color: var(--indigo);
+  font-size: 24px;
+  background: linear-gradient(135deg, var(--indigo-lt), #fff);
 }
 
-.logoText {
-  font-size: 20px;
+.logoName {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--indigo-2);
+  line-height: 1.1;
+}
+
+.logoInst {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
   font-weight: 500;
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 500;
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink-2);
   margin-bottom: 4px;
 }
 
 .subtitle {
   font-size: 13px;
-  color: var(--color-text-secondary);
-  margin-bottom: 1.25rem;
+  color: var(--ink-3);
+  margin-bottom: 1.5rem;
 }
 
 .roleTabs {
@@ -61,28 +116,34 @@
 .roleTab {
   flex: 1;
   padding: 10px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   text-align: center;
   cursor: pointer;
-  font-size: 14px;
-  background: var(--color-background-primary);
-  color: var(--color-text-secondary);
-  transition: background 0.15s, border-color 0.15s;
+  font-size: 13px;
+  font-family: var(--font-body);
+  transition: all 0.15s;
+  background: #fff;
+  color: var(--ink-3);
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .roleTabActiveStudent {
-  border-color: #7f77dd;
-  background: #eeedfe;
-  color: #3c3489;
-  font-weight: 500;
+  border-color: var(--indigo);
+  background: var(--indigo-lt);
+  color: var(--indigo-2);
+  font-weight: 600;
 }
 
 .roleTabActiveTeacher {
-  border-color: #1d9e75;
-  background: #e1f5ee;
-  color: #085041;
-  font-weight: 500;
+  border-color: var(--teal);
+  background: var(--teal-lt);
+  color: var(--teal);
+  font-weight: 600;
 }
 
 .field {
@@ -90,33 +151,42 @@
 }
 
 .label {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-bottom: 5px;
   display: block;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .inputWrap {
   position: relative;
 }
 
-.inputWrap input {
+.inputWrap input,
+.inputWrap select {
   width: 100%;
   padding: 10px 40px 10px 12px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   font-size: 14px;
+  font-family: var(--font-body);
+  background: #fff;
+  color: var(--ink);
   outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.inputWrap input:focus {
-  border-color: #7f77dd;
-  box-shadow: 0 0 0 3px #eeedfe;
+.inputWrap input:focus,
+.inputWrap select:focus {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 3px var(--indigo-lt);
 }
 
 .inputWrapTeacher input:focus {
-  border-color: #1d9e75;
-  box-shadow: 0 0 0 3px #e1f5ee;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-lt);
 }
 
 .fieldIcon {
@@ -124,36 +194,33 @@
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-text-tertiary);
-  cursor: pointer;
-  font-size: 16px;
+  color: var(--ink-4);
   background: none;
   border: none;
   padding: 0;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .error {
   font-size: 12px;
-  color: #a32d2d;
+  color: var(--red);
   margin-top: 4px;
 }
 
 .errorBox {
-  font-size: 13px;
-  color: #a32d2d;
-  background: #fcebeb;
-  padding: 10px 12px;
-  border-radius: var(--border-radius-md);
+  font-size: 12px;
+  color: var(--red);
   margin-bottom: 1rem;
 }
 
 .okBanner {
-  background: #e1f5ee;
-  border: 0.5px solid #5dcaa5;
-  border-radius: var(--border-radius-md);
+  background: var(--teal-lt);
+  border: 1px solid var(--teal-md);
+  border-radius: var(--r-sm);
   padding: 10px 14px;
   font-size: 13px;
-  color: #085041;
+  color: var(--teal);
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -162,83 +229,100 @@
 
 .btnPrimary {
   width: 100%;
-  padding: 10px 16px;
-  border: none;
-  border-radius: var(--border-radius-md);
-  font-size: 15px;
+  padding: 10px 18px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
   font-weight: 500;
-  color: #fff;
+  font-family: var(--font-body);
   cursor: pointer;
+  border: 1px solid transparent;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  margin-top: 0.5rem;
+  transition: background 0.13s;
 }
 
 .btnPrimaryStudent {
-  background: #7f77dd;
+  background: var(--indigo);
+  border-color: var(--indigo);
 }
 
 .btnPrimaryStudent:hover {
-  background: #534ab7;
+  background: var(--indigo-2);
 }
 
 .btnPrimaryTeacher {
-  background: #1d9e75;
+  background: var(--teal);
+  border-color: var(--teal);
 }
 
 .btnPrimaryTeacher:hover {
-  background: #0f6e56;
+  background: #135446;
 }
 
 .divider {
-  margin: 1rem 0;
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--color-text-tertiary);
-  font-size: 12px;
+  color: var(--ink-4);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 1rem 0;
 }
 
-.dividerLine {
+.divider::before,
+.divider::after {
+  content: '';
   flex: 1;
-  height: 0.5px;
-  background: var(--color-border-tertiary);
+  height: 1px;
+  background: var(--border-2);
 }
 
 .btnDemo {
   width: 100%;
-  padding: 8px 16px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  background: var(--color-background-primary);
+  padding: 8px 18px;
+  border-radius: var(--r-sm);
   font-size: 13px;
+  font-family: var(--font-body);
   cursor: pointer;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transition: background 0.13s;
 }
 
 .btnDemo:hover {
-  background: var(--color-background-secondary);
+  background: var(--cream);
 }
 
 .footer {
   text-align: center;
   font-size: 13px;
-  color: var(--color-text-secondary);
+  color: var(--ink-3);
   margin-top: 1.25rem;
 }
 
 .footer a {
-  color: #534ab7;
-  font-weight: 500;
+  color: var(--indigo);
+  font-weight: 600;
+}
+
+.footer a:hover {
+  text-decoration: underline;
 }
 
 .avPick {
   display: flex;
   gap: 8px;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
@@ -251,18 +335,25 @@
   justify-content: center;
   font-size: 18px;
   cursor: pointer;
-  border: 2px solid transparent;
+  border: 2px solid var(--border);
+  background: #fff;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.avOpt:hover {
+  background: var(--cream);
 }
 
 .avOptOn {
-  border-color: #7f77dd;
+  border-color: var(--indigo);
+  background: var(--indigo-lt);
 }
 
 .strBar {
   height: 4px;
   border-radius: 2px;
   margin-top: 6px;
-  background: var(--color-background-secondary);
+  background: var(--cream-2);
   overflow: hidden;
 }
 
@@ -275,4 +366,5 @@
 .strLabel {
   font-size: 11px;
   margin-top: 3px;
+  color: var(--ink-3);
 }

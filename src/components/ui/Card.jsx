@@ -3,7 +3,7 @@ import styles from './Card.module.css';
 export default function Card({ children, className = '', style, onClick }) {
   return (
     <div
-      className={`${styles.card} ${className}`}
+      className={`${styles.card} ${onClick ? styles.clickable : ''} ${className}`}
       style={style}
       onClick={onClick}
       role={onClick ? 'button' : undefined}

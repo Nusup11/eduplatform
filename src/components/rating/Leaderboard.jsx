@@ -2,15 +2,7 @@ import { useMemo } from 'react';
 import { getUsers } from '../../services/userStorage';
 import { useAuth } from '../../hooks/useAuth';
 import Card from '../ui/Card';
-import Badge from '../ui/Badge';
-import styles from './LeaderboardRow.module.css';
-
-function rankClass(rank) {
-  if (rank === 1) return styles.rank1;
-  if (rank === 2) return styles.rank2;
-  if (rank === 3) return styles.rank3;
-  return styles.rankOther;
-}
+import styles from './Leaderboard.module.css';
 
 function medal(rank) {
   if (rank === 1) return '🥇';
@@ -36,9 +28,6 @@ export function CurrentUserBanner() {
           Место #{myRank || '—'} · {(user.points || 0).toLocaleString('ru-RU')} очков
         </div>
       </div>
-      {myRank === 1 && <Badge variant="badge-purple">🥇 Золото</Badge>}
-      {myRank === 2 && <Badge variant="badge-purple">🥈 Серебро</Badge>}
-      {myRank === 3 && <Badge variant="badge-purple">🥉 Бронза</Badge>}
     </Card>
   );
 }
@@ -49,43 +38,55 @@ export default function Leaderboard() {
     () =>
       getUsers()
         .filter((u) => u.role === 'student')
-        .sort((a, b) => (b.pts || 0) - (a.pts || 0))
-        .map((u, i) => ({
-          id: u.email,
-          name: u.name,
-          avatar: u.avatar || u.initials,
-          score: `${u.avgScore || 0}%`,
-          xp: u.pts || 0,
-          rank: i + 1,
-          me: u.email === user.email,
-        })),
-    [user.email],
+        .sort((a, b) => (b.pts || 0) - (a.pts || 0)),
+    [],
   );
 
   return (
     <>
       <CurrentUserBanner />
-      <Card>
-        {entries.map((u) => (
-          <div key={u.id} className={`${styles.row} ${u.me ? styles.rowMe : ''}`}>
-            <div className={`${styles.rank} ${rankClass(u.rank)}`}>{medal(u.rank)}</div>
-            <div
-              className={styles.avatar}
-              style={{
-                background: u.me ? '#7F77DD' : 'var(--color-background-secondary)',
-                color: u.me ? '#fff' : 'var(--color-text-secondary)',
-              }}
-            >
-              {u.avatar}
-            </div>
-            <div className={styles.name}>
-              {u.name}
-              {u.me && <span className={styles.meTag}> (вы)</span>}
-            </div>
-            <div className={styles.score}>{u.score}</div>
-            <div className={styles.points}>{u.xp.toLocaleString('ru-RU')} pts</div>
-          </div>
-        ))}
+      <Card className={styles.tableCard}>
+        <table className="tbl">
+          <thead>
+            <tr>
+              <th>Место</th>
+              <th>Студент</th>
+              <th>Ср. балл</th>
+              <th>Очки</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.map((u, i) => {
+              const rank = i + 1;
+              const me = u.email === user.email;
+              return (
+                <tr key={u.email} className={me ? styles.rowMe : undefined}>
+                  <td className={styles.rankCell}>{medal(rank)}</td>
+                  <td>
+                    <div className={styles.cellUser}>
+                      <span
+                        className={styles.cellAv}
+                        style={
+                          me
+                            ? { background: 'var(--indigo)', color: '#fff' }
+                            : undefined
+                        }
+                      >
+                        {u.avatar || u.initials}
+                      </span>
+                      <span className={me ? styles.nameMe : styles.name}>
+                        {u.name}
+                        {me && <span className={styles.meTag}> (вы)</span>}
+                      </span>
+                    </div>
+                  </td>
+                  <td className={styles.mono}>{u.avgScore || 0}%</td>
+                  <td className={styles.pts}>{(u.pts || 0).toLocaleString('ru-RU')}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </Card>
     </>
   );

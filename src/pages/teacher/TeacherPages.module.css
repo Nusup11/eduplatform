@@ -1,22 +1,27 @@
 .welcome {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
-.greeting {
-  font-size: 13px;
-  color: var(--color-text-secondary);
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
   margin-bottom: 4px;
 }
 
 .name {
-  font-size: 22px;
-  font-weight: 500;
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink-2);
   margin-bottom: 8px;
 }
 
 .empty {
   font-size: 14px;
-  color: var(--color-text-secondary);
+  color: var(--ink-3);
+  font-style: italic;
 }
 
 .studentRow {
@@ -24,7 +29,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 0.5px solid var(--color-border-tertiary);
+  border-bottom: 1px solid var(--border-2);
 }
 
 .studentRow:last-child {
@@ -35,11 +40,13 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #eeedfe;
+  background: var(--indigo-lt);
+  border: 1px solid var(--indigo-md);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .stBody {
@@ -49,34 +56,43 @@
 
 .stName {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: var(--font-head);
+  color: var(--ink-2);
 }
 
 .stGroup {
   font-size: 12px;
-  color: var(--color-text-secondary);
+  color: var(--ink-3);
 }
 
 .stScore {
   text-align: right;
-  font-size: 14px;
-  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.stPct {
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-head);
 }
 
 .stMeta {
-  font-size: 12px;
-  color: var(--color-text-tertiary);
-  font-weight: 400;
+  font-size: 11px;
+  color: var(--ink-4);
+  font-family: var(--font-mono);
 }
 
 .moreLink {
   display: block;
-  padding-top: 8px;
+  padding-top: 10px;
   font-size: 13px;
-  color: #534ab7;
+  color: var(--indigo);
+  cursor: pointer;
 }
 
 .tableCard {
+  padding: 0 !important;
   overflow: hidden;
 }
 
@@ -87,84 +103,78 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
-}
-
-.table th {
-  text-align: left;
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  border-bottom: 0.5px solid var(--color-border-tertiary);
-}
-
-.table td {
-  padding: 10px 12px;
-  border-bottom: 0.5px solid var(--color-border-tertiary);
-}
-
-.table tr:hover td {
-  background: var(--color-background-secondary);
+  font-size: 13.5px;
 }
 
 .muted {
-  color: var(--color-text-tertiary);
+  color: var(--ink-4);
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
 
 .cellUser {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .cellAv {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #eeedfe;
+  background: var(--indigo-lt);
+  border: 1px solid var(--indigo-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .cellName {
-  font-weight: 500;
+  font-weight: 600;
+  font-family: var(--font-head);
+  color: var(--ink-2);
 }
 
-.pts {
-  color: #534ab7;
-  font-weight: 500;
+.ptsCol {
+  color: var(--indigo);
+  font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 .statusBadge {
   display: inline-flex;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
+  padding: 2px 9px;
+  border-radius: 2px;
+  font-size: 11px;
   font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .statusBadge[data-level='good'] {
-  background: #e1f5ee;
-  color: #085041;
+  background: var(--teal-lt);
+  color: var(--teal);
+  border: 1px solid var(--teal-md);
 }
 
 .statusBadge[data-level='mid'] {
-  background: #faeeda;
-  color: #633806;
+  background: var(--amber-lt);
+  color: var(--amber);
+  border: 1px solid #d4aa6a;
 }
 
 .statusBadge[data-level='low'] {
-  background: #fcebeb;
-  color: #791f1f;
+  background: var(--red-lt);
+  color: var(--red);
+  border: 1px solid #d4a0a0;
 }
 
 .emptyCell {
   text-align: center;
-  color: var(--color-text-secondary);
+  color: var(--ink-3);
   padding: 2rem !important;
+  font-style: italic;
 }
 
 .pageHead {
@@ -177,18 +187,20 @@
 }
 
 .pageTitle {
-  font-size: 18px;
-  font-weight: 500;
+  font-family: var(--font-head);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ink-2);
   margin: 0;
 }
 
 .btnTeal {
-  padding: 8px 16px;
-  background: #1d9e75;
+  padding: 5px 12px;
+  background: var(--teal);
   color: #fff;
-  border: none;
-  border-radius: var(--border-radius-md);
-  font-size: 14px;
+  border: 1px solid var(--teal);
+  border-radius: var(--r-sm);
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   display: inline-flex;
@@ -197,13 +209,13 @@
 }
 
 .btnTeal:hover {
-  background: #0f6e56;
+  background: #135446;
 }
 
 .successBanner {
-  background: #e1f5ee !important;
-  border-color: #5dcaa5 !important;
-  color: #085041;
+  background: var(--teal-lt) !important;
+  border-color: var(--teal-md) !important;
+  color: var(--teal);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -222,33 +234,37 @@
 
 .testTitle {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: var(--font-head);
+  color: var(--ink-2);
   margin-bottom: 4px;
 }
 
 .testMeta {
-  font-size: 12px;
-  color: var(--color-text-tertiary);
+  font-size: 11px;
+  color: var(--ink-4);
   margin-left: 8px;
+  font-family: var(--font-mono);
 }
 
 .modalOv {
   min-height: 340px;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(26, 21, 16, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--r-lg);
   margin-bottom: 12px;
 }
 
 .modalBox {
-  background: var(--color-background-primary);
-  border-radius: var(--border-radius-lg);
-  border: 0.5px solid var(--color-border-tertiary);
+  background: var(--parchment);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
   padding: 1.5rem;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  box-shadow: var(--shadow-md);
 }
 
 .modalHead {
@@ -256,7 +272,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.25rem;
-  font-weight: 500;
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-2);
 }
 
 .closeBtn {
@@ -264,23 +283,27 @@
   border: none;
   cursor: pointer;
   font-size: 18px;
-  color: var(--color-text-secondary);
+  color: var(--ink-3);
 }
 
 .fl {
-  font-size: 13px;
-  color: var(--color-text-secondary);
+  font-size: 12px;
+  color: var(--ink-2);
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .inp {
   width: 100%;
   padding: 10px 12px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   margin-bottom: 1rem;
   font-size: 14px;
+  font-family: var(--font-body);
 }
 
 .modalActions {
@@ -292,10 +315,11 @@
 .btnCancel {
   flex: 1;
   padding: 8px 16px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  background: var(--color-background-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: #fff;
   cursor: pointer;
+  font-family: var(--font-body);
 }
 
 .twoCol {
@@ -312,7 +336,9 @@
 
 .cardTitle {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: var(--font-head);
+  color: var(--ink-2);
   margin-bottom: 1rem;
 }
 
@@ -328,5 +354,5 @@
 }
 
 .barHead span:first-child {
-  color: var(--color-text-secondary);
+  color: var(--ink-2);
 }

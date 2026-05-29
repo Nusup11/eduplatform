@@ -8,7 +8,13 @@ export default function CourseListItem({ course }) {
 
   return (
     <Card className={styles.row} onClick={() => navigate('/test')}>
-      <div className={styles.icon} style={{ background: course.bg }}>
+      <div
+        className={styles.icon}
+        style={{
+          background: course.bg,
+          border: `1px solid ${course.brd || 'var(--border-2)'}`,
+        }}
+      >
         {course.icon}
       </div>
       <div className={styles.body}>

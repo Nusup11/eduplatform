@@ -34,7 +34,7 @@ export default function StudentsPage() {
               {students.map((u, i) => {
                 const score = u.avgScore || 0;
                 const status =
-                  score >= 70 ? 'Хорошо' : score >= 50 ? 'Средне' : 'Слабо';
+                  score >= 70 ? 'Отлично' : score >= 50 ? 'Удовл.' : 'Слабо';
                 return (
                   <tr key={u.email}>
                     <td className={styles.muted}>{i + 1}</td>
@@ -51,13 +51,13 @@ export default function StudentsPage() {
                         style={{
                           fontWeight: 500,
                           color:
-                            score >= 70 ? '#1D9E75' : score >= 50 ? '#BA7517' : '#A32D2D',
+                            score >= 70 ? 'var(--teal)' : score >= 50 ? 'var(--amber)' : 'var(--red)',
                         }}
                       >
                         {score}%
                       </span>
                     </td>
-                    <td className={styles.pts}>{(u.pts || 0).toLocaleString('ru-RU')}</td>
+                    <td className={styles.ptsCol}>{(u.pts || 0).toLocaleString('ru-RU')}</td>
                     <td>
                       <span
                         className={styles.statusBadge}

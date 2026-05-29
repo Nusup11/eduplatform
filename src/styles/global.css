@@ -1,15 +1,20 @@
 @import './variables.css';
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: var(--font-sans);
-  background: var(--color-background-tertiary);
-  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  background: var(--parchment);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
 .sr-only {
@@ -30,4 +35,50 @@ a {
 
 button {
   font-family: inherit;
+  cursor: pointer;
+}
+
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.tbl th {
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+  background: var(--cream);
+}
+
+.tbl td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-2);
+}
+
+.tbl tr:last-child td {
+  border-bottom: none;
+}
+
+.tbl tr:hover td {
+  background: var(--cream);
+}
+
+.watermark {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 2rem;
+  font-family: var(--font-head);
+  font-size: 11px;
+  color: var(--ink-4);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
 }

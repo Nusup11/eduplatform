@@ -1,30 +1,41 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
+  padding: 2px 9px;
+  border-radius: 2px;
+  font-size: 11px;
   font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  gap: 4px;
 }
 
 .purple {
-  background: #eeedfe;
-  color: #3c3489;
+  background: var(--indigo-lt);
+  color: var(--indigo);
+  border: 1px solid var(--indigo-md);
 }
+
 .teal {
-  background: #e1f5ee;
-  color: #085041;
+  background: var(--teal-lt);
+  color: var(--teal);
+  border: 1px solid var(--teal-md);
 }
-.amber {
-  background: #faeeda;
-  color: #633806;
-}
+
 .blue {
-  background: #e6f1fb;
-  color: #0c447c;
+  background: #e5eef9;
+  color: #1a4a7a;
+  border: 1px solid #a3c2e0;
 }
+
+.amber {
+  background: var(--amber-lt);
+  color: var(--amber);
+  border: 1px solid #d4aa6a;
+}
+
 .teacher {
-  background: #faece7;
-  color: #712b13;
+  background: var(--teal-lt);
+  color: var(--teal);
+  border: 1px solid var(--teal-md);
 }

@@ -1,7 +1,7 @@
 export const studentNav = [
   { to: '/', label: 'Главная', icon: 'ti-home', end: true },
   { to: '/courses', label: 'Курсы', icon: 'ti-books' },
-  { to: '/test', label: 'Тест', icon: 'ti-clipboard-check' },
+  { to: '/test', label: 'Тестирование', icon: 'ti-clipboard-check' },
   { to: '/rating', label: 'Рейтинг', icon: 'ti-trophy' },
   { to: '/analytics', label: 'Аналитика', icon: 'ti-chart-bar' },
 ];

@@ -24,13 +24,15 @@
 }
 
 .barLabel {
-  font-size: 11px;
-  color: var(--color-text-tertiary);
+  font-size: 10px;
+  color: var(--ink-4);
   text-align: center;
+  font-family: var(--font-mono);
 }
 
 .barVal {
-  font-size: 11px;
-  color: var(--color-text-secondary);
+  font-size: 10px;
+  color: var(--ink-3);
   font-weight: 500;
+  font-family: var(--font-mono);
 }
