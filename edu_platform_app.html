@@ -1,0 +1,517 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary)}
+.app{display:flex;min-height:100vh;flex-direction:column}
+.header{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;font-weight:500;font-size:16px}
+.logo-icon{width:32px;height:32px;background:#7F77DD;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.nav{display:flex;gap:4px}
+.nav-btn{background:none;border:none;padding:6px 12px;border-radius:var(--border-radius-md);font-size:14px;color:var(--color-text-secondary);cursor:pointer;display:flex;align-items:center;gap:6px;transition:background 0.15s,color 0.15s}
+.nav-btn.active,.nav-btn:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.nav-btn.active{color:#534AB7;font-weight:500}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:#CECBF6;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#3C3489;cursor:pointer;flex-shrink:0}
+.main{flex:1;padding:1.5rem;max-width:960px;margin:0 auto;width:100%}
+.page{display:none}
+.page.active{display:block}
+.section-title{font-size:18px;font-weight:500;margin-bottom:1rem}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem}
+.stat-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem}
+.stat-label{font-size:13px;color:var(--color-text-secondary);margin-bottom:4px}
+.stat-value{font-size:24px;font-weight:500}
+.stat-sub{font-size:12px;color:var(--color-text-tertiary);margin-top:2px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px}
+.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:1.5rem}
+.course-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;cursor:pointer;transition:border-color 0.15s}
+.course-card:hover{border-color:var(--color-border-primary)}
+.course-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+.course-title{font-size:15px;font-weight:500;margin-bottom:4px}
+.course-meta{font-size:12px;color:var(--color-text-secondary);margin-bottom:12px}
+.progress-bar{height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.badge-purple{background:#EEEDFE;color:#3C3489}
+.badge-teal{background:#E1F5EE;color:#085041}
+.badge-amber{background:#FAEEDA;color:#633806}
+.badge-blue{background:#E6F1FB;color:#0C447C}
+.btn{padding:8px 16px;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);transition:background 0.15s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary{background:#7F77DD;color:#fff;border-color:#7F77DD}
+.btn-primary:hover{background:#534AB7}
+.test-wrap{max-width:600px}
+.question-num{font-size:13px;color:var(--color-text-secondary);margin-bottom:8px}
+.question-text{font-size:16px;font-weight:500;margin-bottom:1.25rem;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
+.option{padding:12px 16px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;font-size:14px;transition:background 0.15s,border-color 0.15s;display:flex;align-items:center;gap:10px;background:var(--color-background-primary)}
+.option:hover{background:var(--color-background-secondary)}
+.option.selected{border-color:#7F77DD;background:#EEEDFE;color:#3C3489}
+.option.correct{border-color:#1D9E75;background:#E1F5EE;color:#085041}
+.option.wrong{border-color:#E24B4A;background:#FCEBEB;color:#791F1F}
+.option-letter{width:26px;height:26px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.test-progress{height:8px;background:var(--color-background-secondary);border-radius:4px;margin-bottom:1.5rem;overflow:hidden}
+.test-progress-fill{height:100%;background:#7F77DD;border-radius:4px;transition:width 0.4s}
+.result-circle{width:120px;height:120px;border-radius:50%;border:8px solid #7F77DD;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+.result-score{font-size:32px;font-weight:500;color:#534AB7}
+.result-label{font-size:12px;color:var(--color-text-secondary)}
+.leaderboard-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.leaderboard-row:last-child{border-bottom:none}
+.rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.rank-1{background:#FAEEDA;color:#633806}
+.rank-2{background:#D3D1C7;color:#2C2C2A}
+.rank-3{background:#FAECE7;color:#4A1B0C}
+.rank-other{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.lb-name{flex:1;font-size:14px;font-weight:500}
+.lb-score{font-size:14px;color:var(--color-text-secondary)}
+.lb-points{font-size:14px;font-weight:500;color:#534AB7;min-width:60px;text-align:right}
+.chart-bar-wrap{display:flex;align-items:flex-end;gap:8px;height:160px;padding-bottom:24px;position:relative}
+.chart-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px}
+.bar{width:100%;border-radius:4px 4px 0 0;min-height:4px;transition:height 0.4s}
+.bar-label{font-size:11px;color:var(--color-text-tertiary);text-align:center}
+.bar-val{font-size:11px;color:var(--color-text-secondary);font-weight:500}
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.heat-cell{height:14px;border-radius:2px}
+.tabs{display:flex;gap:4px;margin-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:0}
+.tab{padding:8px 16px;font-size:14px;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:color 0.15s,border-color 0.15s}
+.tab.active{color:#534AB7;border-bottom-color:#7F77DD;font-weight:500}
+</style>
+
+<h2 class="sr-only">Обучающая онлайн-платформа с тестами, рейтингами и аналитикой успеваемости</h2>
+
+<div class="app">
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon"><i class="ti ti-school" aria-hidden="true"></i></div>
+      EduPlatform
+    </div>
+    <div class="nav">
+      <button class="nav-btn active" onclick="showPage('home')" id="nav-home">
+        <i class="ti ti-home" aria-hidden="true"></i> Главная
+      </button>
+      <button class="nav-btn" onclick="showPage('courses')" id="nav-courses">
+        <i class="ti ti-books" aria-hidden="true"></i> Курсы
+      </button>
+      <button class="nav-btn" onclick="showPage('test')" id="nav-test">
+        <i class="ti ti-clipboard-check" aria-hidden="true"></i> Тест
+      </button>
+      <button class="nav-btn" onclick="showPage('rating')" id="nav-rating">
+        <i class="ti ti-trophy" aria-hidden="true"></i> Рейтинг
+      </button>
+      <button class="nav-btn" onclick="showPage('analytics')" id="nav-analytics">
+        <i class="ti ti-chart-bar" aria-hidden="true"></i> Аналитика
+      </button>
+    </div>
+    <div class="user-avatar">ЖН</div>
+  </div>
+
+  <div class="main">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div style="margin-bottom:1.5rem">
+        <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:4px">Добро пожаловать обратно 👋</p>
+        <h1 style="font-size:22px;font-weight:500">Жумагулов Нусуп</h1>
+      </div>
+      <div class="cards-grid">
+        <div class="stat-card">
+          <div class="stat-label">Пройдено тестов</div>
+          <div class="stat-value" style="color:#534AB7">24</div>
+          <div class="stat-sub">+3 за эту неделю</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Средний балл</div>
+          <div class="stat-value" style="color:#1D9E75">78%</div>
+          <div class="stat-sub">↑ 5% от прошлого месяца</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Место в рейтинге</div>
+          <div class="stat-value" style="color:#BA7517">🥈 2</div>
+          <div class="stat-sub">из 148 студентов</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Очков набрано</div>
+          <div class="stat-value">2 340</div>
+          <div class="stat-sub">EduPoints</div>
+        </div>
+      </div>
+
+      <div class="section-title">Продолжить обучение</div>
+      <div class="course-grid">
+        <div class="course-card" onclick="showPage('test')">
+          <div class="course-icon" style="background:#EEEDFE">🧠</div>
+          <div class="course-title">Теория принятия решений</div>
+          <div class="course-meta">Проф. Миркин Е.Л. · 12 тем</div>
+          <div style="margin-bottom:6px"><div class="progress-bar"><div class="progress-fill" style="width:65%;background:#7F77DD"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="badge badge-purple">65% завершено</span>
+            <span style="font-size:12px;color:var(--color-text-tertiary)">7/12 тем</span>
+          </div>
+        </div>
+        <div class="course-card" onclick="showPage('test')">
+          <div class="course-icon" style="background:#E1F5EE">💻</div>
+          <div class="course-title">Операционные системы</div>
+          <div class="course-meta">Группа ИСИТ-1-22 · 10 тем</div>
+          <div style="margin-bottom:6px"><div class="progress-bar"><div class="progress-fill" style="width:80%;background:#1D9E75"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="badge badge-teal">80% завершено</span>
+            <span style="font-size:12px;color:var(--color-text-tertiary)">8/10 тем</span>
+          </div>
+        </div>
+        <div class="course-card" onclick="showPage('test')">
+          <div class="course-icon" style="background:#E6F1FB">🤖</div>
+          <div class="course-title">Нейронные сети</div>
+          <div class="course-meta">Kohonen, MLP, Perceptron</div>
+          <div style="margin-bottom:6px"><div class="progress-bar"><div class="progress-fill" style="width:45%;background:#378ADD"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="badge badge-blue">45% завершено</span>
+            <span style="font-size:12px;color:var(--color-text-tertiary)">4/9 тем</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Активность за неделю</div>
+      <div class="card">
+        <div id="week-chart" class="chart-bar-wrap"></div>
+      </div>
+    </div>
+
+    <!-- COURSES -->
+    <div class="page" id="page-courses">
+      <div class="section-title">Все курсы</div>
+      <div class="tabs">
+        <div class="tab active" onclick="filterCourses('all',this)">Все</div>
+        <div class="tab" onclick="filterCourses('active',this)">Активные</div>
+        <div class="tab" onclick="filterCourses('done',this)">Завершённые</div>
+      </div>
+      <div id="courses-list"></div>
+    </div>
+
+    <!-- TEST -->
+    <div class="page" id="page-test">
+      <div id="test-select">
+        <div class="section-title">Выберите тест</div>
+        <div id="test-select-list"></div>
+      </div>
+      <div id="test-body" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <span id="test-title-label" style="font-size:15px;font-weight:500"></span>
+          <span id="test-timer" style="font-size:13px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:4px 10px;border-radius:20px"></span>
+        </div>
+        <div class="test-progress"><div class="test-progress-fill" id="test-prog" style="width:0%"></div></div>
+        <div class="test-wrap">
+          <div class="question-num" id="q-num"></div>
+          <div class="question-text" id="q-text"></div>
+          <div class="options" id="q-options"></div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()" style="display:none">Далее →</button>
+          </div>
+        </div>
+      </div>
+      <div id="test-result" style="display:none;text-align:center;padding:2rem 0">
+        <div class="result-circle">
+          <div class="result-score" id="res-score"></div>
+          <div class="result-label">баллов</div>
+        </div>
+        <div style="font-size:18px;font-weight:500;margin-bottom:8px" id="res-title"></div>
+        <div style="font-size:14px;color:var(--color-text-secondary);margin-bottom:1.5rem" id="res-sub"></div>
+        <div style="display:flex;gap:8px;justify-content:center">
+          <button class="btn" onclick="retryTest()"><i class="ti ti-refresh" aria-hidden="true"></i> Повторить</button>
+          <button class="btn btn-primary" onclick="showPage('rating')"><i class="ti ti-trophy" aria-hidden="true"></i> Рейтинг</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RATING -->
+    <div class="page" id="page-rating">
+      <div class="section-title">Рейтинг студентов</div>
+      <div class="card" style="margin-bottom:12px;background:#EEEDFE;border-color:#AFA9EC;display:flex;align-items:center;gap:12px">
+        <div style="width:36px;height:36px;border-radius:50%;background:#7F77DD;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:500">ЖН</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:500">Жумагулов Нусуп — это вы</div>
+          <div style="font-size:12px;color:#534AB7">Место #2 · 2 340 очков</div>
+        </div>
+        <span class="badge badge-purple">🥈 Серебро</span>
+      </div>
+      <div class="card">
+        <div id="leaderboard-list"></div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="page" id="page-analytics">
+      <div class="section-title">Аналитика успеваемости</div>
+      <div class="cards-grid" style="margin-bottom:1.5rem">
+        <div class="stat-card"><div class="stat-label">Лучший результат</div><div class="stat-value" style="color:#534AB7">95%</div><div class="stat-sub">Нейронные сети, лаб. 4</div></div>
+        <div class="stat-card"><div class="stat-label">Среднее время на тест</div><div class="stat-value">12 мин</div></div>
+        <div class="stat-card"><div class="stat-label">Тестов в этом месяце</div><div class="stat-value" style="color:#1D9E75">11</div></div>
+        <div class="stat-card"><div class="stat-label">Серия дней</div><div class="stat-value" style="color:#BA7517">🔥 8</div><div class="stat-sub">дней подряд</div></div>
+      </div>
+      <div class="analytics-grid">
+        <div class="card">
+          <div style="font-size:14px;font-weight:500;margin-bottom:1rem">Результаты по курсам</div>
+          <div id="course-bars"></div>
+        </div>
+        <div class="card">
+          <div style="font-size:14px;font-weight:500;margin-bottom:1rem">Активность за месяц</div>
+          <div class="heatmap" id="heatmap"></div>
+          <div style="display:flex;gap:6px;align-items:center;margin-top:8px">
+            <span style="font-size:11px;color:var(--color-text-tertiary)">Меньше</span>
+            <div style="width:12px;height:12px;border-radius:2px;background:#EEEDFE"></div>
+            <div style="width:12px;height:12px;border-radius:2px;background:#AFA9EC"></div>
+            <div style="width:12px;height:12px;border-radius:2px;background:#7F77DD"></div>
+            <div style="width:12px;height:12px;border-radius:2px;background:#534AB7"></div>
+            <span style="font-size:11px;color:var(--color-text-tertiary)">Больше</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <div style="font-size:14px;font-weight:500;margin-bottom:1rem">Прогресс по неделям</div>
+        <div id="progress-chart" class="chart-bar-wrap" style="height:180px"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+const weekData = [2,5,3,7,4,1,6];
+const weekChart = document.getElementById('week-chart');
+const maxW = Math.max(...weekData);
+weekData.forEach((v,i)=>{
+  const col = document.createElement('div');
+  col.className='chart-bar-col';
+  const pct = Math.round(v/maxW*100);
+  col.innerHTML=`<div class="bar-val">${v}</div><div class="bar" style="height:${pct}%;background:#7F77DD;opacity:${0.4+v/maxW*0.6}"></div><div class="bar-label">${days[i]}</div>`;
+  weekChart.appendChild(col);
+});
+
+const courses = [
+  {icon:'🧠',title:'Теория принятия решений',teacher:'Проф. Миркин Е.Л.',topics:12,done:7,pct:65,color:'#7F77DD',bg:'#EEEDFE',status:'active'},
+  {icon:'💻',title:'Операционные системы',teacher:'Группа ИСИТ-1-22',topics:10,done:8,pct:80,color:'#1D9E75',bg:'#E1F5EE',status:'active'},
+  {icon:'🤖',title:'Нейронные сети',teacher:'MATLAB, Python, Sklearn',topics:9,done:4,pct:45,color:'#378ADD',bg:'#E6F1FB',status:'active'},
+  {icon:'🗄️',title:'Базы данных / MongoDB',teacher:'Самостоятельная работа',topics:8,done:8,pct:100,color:'#639922',bg:'#EAF3DE',status:'done'},
+  {icon:'📊',title:'Линейное программирование',teacher:'Модульная работа №2',topics:5,done:5,pct:100,color:'#BA7517',bg:'#FAEEDA',status:'done'},
+];
+
+function renderCourses(filter){
+  const list = document.getElementById('courses-list');
+  list.innerHTML='';
+  courses.filter(c=>filter==='all'||c.status===filter).forEach(c=>{
+    list.innerHTML+=`<div class="card" style="display:flex;align-items:center;gap:1rem;cursor:pointer" onclick="showPage('test')">
+      <div style="width:48px;height:48px;border-radius:10px;background:${c.bg};display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">${c.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:15px;font-weight:500;margin-bottom:3px">${c.title}</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">${c.teacher}</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${c.pct}%;background:${c.color}"></div></div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-size:15px;font-weight:500;color:${c.color}">${c.pct}%</div>
+        <div style="font-size:12px;color:var(--color-text-tertiary)">${c.done}/${c.topics}</div>
+      </div>
+    </div>`;
+  });
+}
+renderCourses('all');
+
+function filterCourses(f,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderCourses(f);
+}
+
+const tests = [
+  {id:0,title:'Нейронные сети: сеть Кохонена',badge:'Нейросети',color:'badge-blue',questions:[
+    {q:'Что такое сеть Кохонена?',opts:['Нейросеть с учителем','Самоорганизующаяся карта (SOM)','Рекуррентная сеть','Свёрточная сеть'],ans:1},
+    {q:'Какой алгоритм обучения использует SOM?',opts:['Обратное распространение','Конкурентное обучение','Градиентный спуск','Метод Хопфилда'],ans:1},
+    {q:'Что означает "нейрон-победитель" (BMU)?',opts:['Нейрон с наибольшим весом','Нейрон, ближайший к входному вектору','Нейрон с наименьшим весом','Случайный нейрон'],ans:1},
+    {q:'Для чего используются SOM-сети?',opts:['Классификация с учителем','Визуализация и кластеризация','Регрессионный анализ','Управление роботами'],ans:1},
+    {q:'Как изменяется скорость обучения SOM?',opts:['Остаётся постоянной','Убывает со временем','Возрастает','Произвольно меняется'],ans:1},
+  ]},
+  {id:1,title:'Операционные системы: Bash',badge:'ОС',color:'badge-teal',questions:[
+    {q:'Какая команда показывает текущую директорию?',opts:['ls','pwd','cd','mkdir'],ans:1},
+    {q:'Как сделать файл исполняемым в bash?',opts:['chmod +x file.sh','exec file.sh','run file.sh','bash -e file.sh'],ans:0},
+    {q:'Что делает команда grep?',opts:['Копирует файлы','Ищет текст по шаблону','Удаляет строки','Архивирует файлы'],ans:1},
+    {q:'Как передать аргумент скрипту в bash?',opts:['$ARG','$1','arg[0]','%1'],ans:1},
+    {q:'Как объявить переменную в bash?',opts:['var x=5','x = 5','x=5','int x=5'],ans:2},
+  ]},
+  {id:2,title:'Теория принятия решений: linprog',badge:'ТПР',color:'badge-purple',questions:[
+    {q:'Что решает функция linprog в MATLAB?',opts:['ОДУ','Задачи линейного программирования','Матричные уравнения','Нелинейную оптимизацию'],ans:1},
+    {q:'Какой метод использует linprog по умолчанию?',opts:['Симплекс','Внутренней точки','Ветвей и границ','Градиентный'],ans:1},
+    {q:'Каковы ограничения в задаче ЛП?',opts:['Только равенства','Только неравенства','Равенства и неравенства','Ограничений нет'],ans:2},
+    {q:'Что означает "допустимое решение"?',opts:['Максимум целевой функции','Решение, удовлетворяющее всем ограничениям','Любая точка области','Минимум функции'],ans:1},
+    {q:'Что такое целевая функция в задаче ЛП?',opts:['Ограничение задачи','Функция, которую минимизируют/максимизируют','Вектор переменных','Матрица коэффициентов'],ans:1},
+  ]},
+];
+
+let curTest=null,curQ=0,answers=[],timerInt=null,timeLeft=0;
+
+function renderTestSelect(){
+  const el=document.getElementById('test-select-list');
+  el.innerHTML='';
+  tests.forEach(t=>{
+    el.innerHTML+=`<div class="card" style="cursor:pointer;display:flex;align-items:center;gap:12px" onclick="startTest(${t.id})">
+      <i class="ti ti-clipboard-check" style="font-size:28px;color:#7F77DD" aria-hidden="true"></i>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:500;margin-bottom:4px">${t.title}</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="badge ${t.color}">${t.badge}</span>
+          <span style="font-size:12px;color:var(--color-text-tertiary)">${t.questions.length} вопросов · ~${t.questions.length*2} мин</span>
+        </div>
+      </div>
+      <i class="ti ti-arrow-right" style="color:var(--color-text-tertiary)" aria-hidden="true"></i>
+    </div>`;
+  });
+}
+renderTestSelect();
+
+function startTest(id){
+  curTest=tests[id];curQ=0;answers=[];
+  timeLeft=curTest.questions.length*120;
+  document.getElementById('test-select').style.display='none';
+  document.getElementById('test-result').style.display='none';
+  document.getElementById('test-body').style.display='block';
+  document.getElementById('test-title-label').textContent=curTest.title;
+  renderQuestion();
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    timeLeft--;
+    const m=Math.floor(timeLeft/60),s=timeLeft%60;
+    document.getElementById('test-timer').textContent=`${m}:${s<10?'0'+s:s}`;
+    if(timeLeft<=0){clearInterval(timerInt);showResult();}
+  },1000);
+}
+
+function renderQuestion(){
+  const q=curTest.questions[curQ];
+  const total=curTest.questions.length;
+  document.getElementById('q-num').textContent=`Вопрос ${curQ+1} из ${total}`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('test-prog').style.width=`${Math.round(curQ/total*100)}%`;
+  document.getElementById('btn-next').style.display='none';
+  const opts=document.getElementById('q-options');
+  opts.innerHTML='';
+  const letters=['А','Б','В','Г'];
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='option';
+    d.innerHTML=`<div class="option-letter">${letters[i]}</div>${o}`;
+    d.onclick=()=>selectOption(i,d,q.ans);
+    opts.appendChild(d);
+  });
+}
+
+function selectOption(idx,el,correct){
+  document.querySelectorAll('.option').forEach(o=>o.onclick=null);
+  const allOpts=document.querySelectorAll('.option');
+  if(idx===correct){el.className='option correct';}
+  else{el.className='option wrong';allOpts[correct].className='option correct';}
+  answers.push(idx===correct?1:0);
+  document.getElementById('btn-next').style.display='block';
+}
+
+function nextQuestion(){
+  curQ++;
+  if(curQ>=curTest.questions.length){clearInterval(timerInt);showResult();}
+  else{renderQuestion();}
+}
+
+function showResult(){
+  document.getElementById('test-body').style.display='none';
+  const total=answers.length;
+  const correct=answers.reduce((a,b)=>a+b,0);
+  const pct=Math.round(correct/curTest.questions.length*100);
+  document.getElementById('res-score').textContent=pct+'%';
+  let title,sub;
+  if(pct>=90){title='Отлично! 🏆';sub=`Правильно ${correct} из ${curTest.questions.length} вопросов. Вы получаете +120 EduPoints!`;}
+  else if(pct>=70){title='Хороший результат 👍';sub=`Правильно ${correct} из ${curTest.questions.length} вопросов. +80 EduPoints`;}
+  else if(pct>=50){title='Неплохо, но можно лучше 📚';sub=`Правильно ${correct} из ${curTest.questions.length} вопросов. +40 EduPoints`;}
+  else{title='Нужно повторить материал 🔁';sub=`Правильно ${correct} из ${curTest.questions.length} вопросов. Попробуйте ещё раз!`;}
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-sub').textContent=sub;
+  document.getElementById('test-result').style.display='block';
+}
+
+function retryTest(){
+  const id=curTest.id;
+  document.getElementById('test-result').style.display='none';
+  startTest(id);
+}
+
+const leaderboard=[
+  {name:'Асанов Марат',avatar:'АМ',score:'95%',pts:2680,rank:1},
+  {name:'Жумагулов Нусуп',avatar:'ЖН',score:'92%',pts:2340,rank:2,me:true},
+  {name:'Токтобекова Айгуль',avatar:'ТА',score:'88%',pts:2100,rank:3},
+  {name:'Исаков Данияр',avatar:'ИД',score:'85%',pts:1980,rank:4},
+  {name:'Байтемирова Зарина',avatar:'БЗ',score:'82%',pts:1870,rank:5},
+  {name:'Омуров Бекзат',avatar:'ОБ',score:'80%',pts:1760,rank:6},
+  {name:'Кадырова Малика',avatar:'КМ',score:'78%',pts:1650,rank:7},
+  {name:'Эргешов Нурлан',avatar:'ЭН',score:'75%',pts:1540,rank:8},
+];
+
+const lbList=document.getElementById('leaderboard-list');
+leaderboard.forEach(u=>{
+  const rankClass=u.rank===1?'rank-1':u.rank===2?'rank-2':u.rank===3?'rank-3':'rank-other';
+  const medal=u.rank===1?'🥇':u.rank===2?'🥈':u.rank===3?'🥉':u.rank;
+  lbList.innerHTML+=`<div class="leaderboard-row" style="${u.me?'background:var(--color-background-secondary);margin:0 -1.25rem;padding:10px 1.25rem;':''}">
+    <div class="rank ${rankClass}">${medal}</div>
+    <div style="width:32px;height:32px;border-radius:50%;background:${u.me?'#7F77DD':'var(--color-background-secondary)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:${u.me?'#fff':'var(--color-text-secondary)'};flex-shrink:0">${u.avatar}</div>
+    <div class="lb-name">${u.name}${u.me?' <span style="font-size:11px;color:#7F77DD">(вы)</span>':''}</div>
+    <div class="lb-score">${u.score}</div>
+    <div class="lb-points">${u.pts.toLocaleString()} pts</div>
+  </div>`;
+});
+
+const courseResults=[
+  {label:'Теория ПР',pct:78,color:'#7F77DD'},
+  {label:'ОС / Bash',pct:85,color:'#1D9E75'},
+  {label:'Нейросети',pct:71,color:'#378ADD'},
+  {label:'MongoDB',pct:92,color:'#639922'},
+  {label:'Линейн. ПР',pct:88,color:'#BA7517'},
+];
+const cbEl=document.getElementById('course-bars');
+courseResults.forEach(c=>{
+  cbEl.innerHTML+=`<div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+      <span style="color:var(--color-text-secondary)">${c.label}</span>
+      <span style="font-weight:500;color:${c.color}">${c.pct}%</span>
+    </div>
+    <div class="progress-bar" style="height:8px"><div class="progress-fill" style="width:${c.pct}%;background:${c.color}"></div></div>
+  </div>`;
+});
+
+const hm=document.getElementById('heatmap');
+const heatColors=['transparent','#EEEDFE','#AFA9EC','#7F77DD','#534AB7'];
+for(let i=0;i<28;i++){
+  const v=Math.floor(Math.random()*5);
+  const d=document.createElement('div');
+  d.className='heat-cell';
+  d.style.background=heatColors[v];
+  d.style.border='0.5px solid var(--color-border-tertiary)';
+  d.title=`${v} тестов`;
+  hm.appendChild(d);
+}
+
+const weekProgress=[55,60,65,62,70,75,78];
+const wpEl=document.getElementById('progress-chart');
+const maxWP=Math.max(...weekProgress);
+weekProgress.forEach((v,i)=>{
+  const col=document.createElement('div');
+  col.className='chart-bar-col';
+  col.innerHTML=`<div class="bar-val">${v}%</div><div class="bar" style="height:${Math.round(v/maxWP*100)}%;background:#7F77DD;opacity:0.8"></div><div class="bar-label">Нед ${i+1}</div>`;
+  wpEl.appendChild(col);
+});
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  if(name==='test'){
+    document.getElementById('test-select').style.display='block';
+    document.getElementById('test-body').style.display='none';
+    document.getElementById('test-result').style.display='none';
+    renderTestSelect();
+  }
+}
+</script>

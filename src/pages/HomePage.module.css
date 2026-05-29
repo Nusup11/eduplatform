@@ -1,0 +1,55 @@
+.welcome {
+  margin-bottom: 1.5rem;
+}
+
+.greeting {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.guestBanner {
+  background: #eeedfe;
+  border: 0.5px solid #afa9ec;
+  border-radius: var(--border-radius-lg);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+  color: #3c3489;
+}
+
+.guestActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.guestBtnPrimary {
+  padding: 8px 16px;
+  background: #7f77dd;
+  color: #fff;
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.guestBtnSecondary {
+  padding: 8px 16px;
+  border: 0.5px solid #afa9ec;
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  color: #534ab7;
+}
+
+@media (max-width: 480px) {
+  .name {
+    font-size: 18px;
+  }
+}

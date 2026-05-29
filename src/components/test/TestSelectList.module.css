@@ -1,0 +1,36 @@
+.row {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 28px;
+  color: #7f77dd;
+}
+
+.body {
+  flex: 1;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.arrow {
+  color: var(--color-text-tertiary);
+}

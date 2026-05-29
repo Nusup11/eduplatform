@@ -1,0 +1,29 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.cell {
+  height: 14px;
+  border-radius: 2px;
+  border: 0.5px solid var(--color-border-tertiary);
+}
+
+.legend {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.legendLabel {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+.legendBox {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}

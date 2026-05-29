@@ -1,0 +1,144 @@
+.header {
+  background: var(--color-background-primary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 8px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  background: #7f77dd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  flex: 1;
+  justify-content: center;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.navBtn {
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  border-radius: var(--border-radius-md);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.navBtn:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+}
+
+.navBtnActive {
+  background: var(--color-background-secondary);
+  color: #534ab7;
+  font-weight: 500;
+}
+
+.userBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #cecbf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3c3489;
+}
+
+.authLink {
+  font-size: 13px;
+  font-weight: 500;
+  color: #534ab7;
+  padding: 6px 10px;
+}
+
+.authBtnPrimary {
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background: #7f77dd;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-md);
+}
+
+.authBtnPrimary:hover {
+  background: #534ab7;
+}
+
+.logoutBtn {
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  background: var(--color-background-secondary);
+}
+
+@media (max-width: 640px) {
+  .logoutBtn {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding: 0 1.5rem;
+  }
+  .navBtn {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
