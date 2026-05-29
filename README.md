@@ -40,3 +40,16 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## Деплой на Vercel
+
+1. Root directory: корень репозитория (`teach-web`)
+2. Build: `npm run build`, Output: `dist`
+3. В репозитории уже есть `vercel.json` — все маршруты (`/login`, `/dashboard` и т.д.) перенаправляются на `index.html`
+
+Если видите `404: NOT_FOUND` с `fra1::...`:
+- проверьте, что деплой **успешно завершился** (не Failed в панели Vercel);
+- откройте именно URL последнего деплоя, не старый preview;
+- после push с `vercel.json` сделайте **Redeploy**.
+
+Локально: `npm run dev` → http://localhost:5173 (или порт из терминала, сейчас может быть 5176).
